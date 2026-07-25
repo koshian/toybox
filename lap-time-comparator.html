@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta
+    name="description"
+    content="Compare a target lap time with a current lap time and calculate the time gap and percentage difference."
+  >
+  <title>Lap Time Comparator</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --background: #080a0d;
+      --surface: #11151b;
+      --surface-raised: #171c24;
+      --surface-soft: #202630;
+      --text: #f7f9fc;
+      --muted: #aab3c2;
+      --border: #323b49;
+      --accent: #ff2d20;
+      --accent-bright: #ff5147;
+      --yellow: #ffd400;
+      --green: #2ee38a;
+      --blue: #48a8ff;
+      --error: #ff7068;
+      --shadow: 0 28px 80px rgba(0, 0, 0, 0.48);
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--background);
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--text);
+      background:
+        linear-gradient(135deg, transparent 0 72%, rgba(255, 45, 32, 0.05) 72% 73%, transparent 73%),
+        repeating-linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.018) 0 1px,
+          transparent 1px 16px
+        ),
+        radial-gradient(circle at 85% 0%, rgba(255, 45, 32, 0.16), transparent 30rem),
+        var(--background);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: 5px;
+      z-index: 10;
+      background:
+        linear-gradient(
+          90deg,
+          var(--accent) 0 26%,
+          #fff 26% 29%,
+          #15191f 29% 32%,
+          var(--accent) 32% 100%
+        );
+    }
+
+    main {
+      width: min(980px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 52px 0 64px;
+    }
+
+    header {
+      position: relative;
+      margin-bottom: 22px;
+      padding-left: 20px;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      inset: 4px auto 2px 0;
+      width: 5px;
+      transform: skewX(-12deg);
+      background: var(--accent);
+      box-shadow: 9px 0 0 rgba(255, 45, 32, 0.28);
+    }
+
+    .eyebrow {
+      margin: 0 0 7px;
+      color: var(--accent-bright);
+      font-size: 0.8rem;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.15rem, 7vw, 4.6rem);
+      font-weight: 950;
+      font-style: italic;
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+      text-transform: uppercase;
+    }
+
+    .lead {
+      max-width: 48rem;
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.035), transparent 42%),
+        var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 5px;
+      background: var(--accent);
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: -52px;
+      width: 180px;
+      height: 22px;
+      transform: skewX(-38deg);
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.9) 0 14px,
+          rgba(15, 18, 23, 0.95) 14px 28px
+        );
+      opacity: 0.16;
+    }
+
+    .calculator {
+      padding: 26px;
+    }
+
+    .inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px 16px;
+      color: var(--text);
+      background: #090c10;
+      border: 1px solid #404a59;
+      border-radius: 5px;
+      outline: none;
+      font: inherit;
+      font-size: 1.36rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.025em;
+      transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease;
+    }
+
+    input:focus {
+      background: #0d1117;
+      border-color: var(--accent-bright);
+      box-shadow: 0 0 0 3px rgba(255, 45, 32, 0.2);
+    }
+
+    .hint {
+      color: #778191;
+      font-size: 0.72rem;
+      font-weight: 650;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    button {
+      min-height: 44px;
+      padding: 11px 19px;
+      border: 0;
+      border-radius: 4px;
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 950;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition:
+        transform 0.12s ease,
+        filter 0.12s ease,
+        border-color 0.12s ease;
+    }
+
+    button:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    .primary {
+      color: #fff;
+      background:
+        linear-gradient(135deg, var(--accent-bright), var(--accent));
+      box-shadow: 0 7px 24px rgba(255, 45, 32, 0.24);
+    }
+
+    .secondary {
+      color: var(--text);
+      background: var(--surface-soft);
+      border: 1px solid #46505f;
+    }
+
+    .message {
+      min-height: 1.5em;
+      margin: 14px 0 0;
+      color: var(--error);
+      font-size: 0.9rem;
+      font-weight: 750;
+    }
+
+    .result {
+      display: none;
+      position: relative;
+      margin-top: 22px;
+      padding: 24px;
+      color: var(--text);
+      background:
+        linear-gradient(120deg, rgba(255, 45, 32, 0.11), transparent 34%),
+        linear-gradient(145deg, #171c24, #10141a);
+      border: 1px solid #444e5d;
+      border-radius: 7px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .result::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: var(--yellow);
+    }
+
+    .result.visible {
+      display: block;
+    }
+
+    .result-label {
+      margin: 0;
+      color: #c4ccd8;
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .result-main {
+      margin: 7px 0 0;
+      color: #ffffff;
+      font-family:
+        "Arial Narrow", "Roboto Condensed", Impact, ui-sans-serif, system-ui, sans-serif;
+      font-size: clamp(4rem, 14vw, 8.4rem);
+      font-weight: 950;
+      font-style: italic;
+      font-variant-numeric: tabular-nums;
+      line-height: 0.92;
+      letter-spacing: -0.065em;
+      text-shadow:
+        0 2px 0 rgba(255, 255, 255, 0.06),
+        0 10px 34px rgba(0, 0, 0, 0.4);
+    }
+
+    .result-summary {
+      margin: 18px 0 0;
+      color: #e9edf3;
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      font-weight: 650;
+      line-height: 1.55;
+    }
+
+    .result-summary strong {
+      color: var(--yellow);
+      font-weight: 950;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .metric {
+      position: relative;
+      padding: 15px 17px;
+      background: #0b0e13;
+      border: 1px solid #36404d;
+      border-radius: 5px;
+    }
+
+    .metric::after {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent 70%);
+    }
+
+    .metric span {
+      display: block;
+      color: #939eae;
+      font-size: 0.73rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 5px;
+      color: #fff;
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+
+    footer {
+      margin-top: 18px;
+      color: #707b8a;
+      text-align: center;
+      font-size: 0.75rem;
+    }
+
+    @media (max-width: 660px) {
+      main {
+        width: min(100% - 18px, 980px);
+        padding-top: 30px;
+      }
+
+      header {
+        padding-left: 16px;
+      }
+
+      .calculator {
+        padding: 17px 15px 18px 20px;
+      }
+
+      .inputs,
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .result {
+        padding: 20px 15px 18px 19px;
+      }
+
+      .result-main {
+        font-size: clamp(3.5rem, 21vw, 6.5rem);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">Lap Time Percentage Calculator</p>
+      <h1>Lap Time Comparator</h1>
+      <p class="lead">
+        Compare your current lap time against a target and see the gap instantly.
+      </p>
+    </header>
+
+    <section class="card calculator" aria-labelledby="calculator-title">
+      <h2 id="calculator-title" hidden>Lap time calculator</h2>
+
+      <div class="inputs">
+        <label>
+          Target Time
+          <input
+            id="targetTime"
+            name="target"
+            type="text"
+            inputmode="decimal"
+            autocomplete="off"
+            spellcheck="false"
+            value="1:17.207"
+            aria-describedby="target-time-hint"
+          >
+          <span class="hint" id="target-time-hint">
+            Example: 1:17.207 or 77.207
+          </span>
+        </label>
+
+        <label>
+          Current Time
+          <input
+            id="currentTime"
+            name="current"
+            type="text"
+            inputmode="decimal"
+            autocomplete="off"
+            spellcheck="false"
+            value="1:19.808"
+            aria-describedby="current-time-hint"
+          >
+          <span class="hint" id="current-time-hint">
+            Example: 1:19.808 or 79.808
+          </span>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button class="primary" id="calculateButton" type="button">
+          Compare
+        </button>
+        <button class="secondary" id="swapButton" type="button">
+          Swap Times
+        </button>
+        <button class="secondary" id="copyUrlButton" type="button">
+          Copy Share URL
+        </button>
+      </div>
+
+      <p class="message" id="message" role="alert" aria-live="polite"></p>
+
+      <section class="result" id="result" aria-live="polite">
+        <p class="result-label">Current / Target</p>
+        <p class="result-main" id="ratioResult">103.369%</p>
+        <p class="result-summary" id="summaryResult"></p>
+
+        <div class="metrics">
+          <div class="metric">
+            <span>Time Gap</span>
+            <strong id="gapResult">+2.601 s</strong>
+          </div>
+
+          <div class="metric">
+            <span>Difference from Target</span>
+            <strong id="differenceResult">+3.369%</strong>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <footer>
+      All calculations run locally in your browser. No data is uploaded.
+    </footer>
+  </main>
+
+  <script>
+    "use strict";
+
+    const targetTimeInput = document.getElementById("targetTime");
+    const currentTimeInput = document.getElementById("currentTime");
+
+    const calculateButton = document.getElementById("calculateButton");
+    const swapButton = document.getElementById("swapButton");
+    const copyUrlButton = document.getElementById("copyUrlButton");
+
+    const messageElement = document.getElementById("message");
+    const resultElement = document.getElementById("result");
+    const ratioResultElement = document.getElementById("ratioResult");
+    const gapResultElement = document.getElementById("gapResult");
+    const differenceResultElement = document.getElementById("differenceResult");
+    const summaryResultElement = document.getElementById("summaryResult");
+
+    function parseLapTime(timeValue) {
+      const normalizedTime = timeValue
+        .trim()
+        .replace(/：/g, ":")
+        .replace(/，/g, ".");
+
+      if (!normalizedTime) {
+        throw new Error("Enter both the target time and the current time.");
+      }
+
+      let minutes = 0;
+      let secondsText = normalizedTime;
+
+      if (normalizedTime.includes(":")) {
+        const timeParts = normalizedTime.split(":");
+
+        if (timeParts.length !== 2 || !/^\d+$/.test(timeParts[0])) {
+          throw new Error(`Invalid lap time: ${timeValue}`);
+        }
+
+        minutes = Number(timeParts[0]);
+        secondsText = timeParts[1];
+      }
+
+      if (!/^\d+(?:\.\d{1,3})?$/.test(secondsText)) {
+        throw new Error(`Invalid lap time: ${timeValue}`);
+      }
+
+      const seconds = Number(secondsText);
+
+      if (normalizedTime.includes(":") && seconds >= 60) {
+        throw new Error(`Seconds must be below 60: ${timeValue}`);
+      }
+
+      const totalMilliseconds = Math.round(
+        (minutes * 60 + seconds) * 1000
+      );
+
+      if (!Number.isFinite(totalMilliseconds) || totalMilliseconds <= 0) {
+        throw new Error("Lap times must be greater than zero.");
+      }
+
+      return totalMilliseconds;
+    }
+
+    function formatLapTime(milliseconds) {
+      const totalSeconds = milliseconds / 1000;
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds - minutes * 60;
+
+      if (minutes === 0) {
+        return seconds.toFixed(3);
+      }
+
+      return `${minutes}:${seconds.toFixed(3).padStart(6, "0")}`;
+    }
+
+    function formatSignedSeconds(milliseconds) {
+      const sign =
+        milliseconds > 0 ? "+" :
+        milliseconds < 0 ? "−" :
+        "±";
+
+      return `${sign}${Math.abs(milliseconds / 1000).toFixed(3)} s`;
+    }
+
+    function formatSignedPercentage(percentage) {
+      const sign =
+        percentage > 0 ? "+" :
+        percentage < 0 ? "−" :
+        "±";
+
+      return `${sign}${Math.abs(percentage).toFixed(3)}%`;
+    }
+
+    function buildShareUrl(targetTime, currentTime) {
+      const shareUrl = new URL(window.location.href);
+
+      shareUrl.search = "";
+      shareUrl.searchParams.set("target", targetTime);
+      shareUrl.searchParams.set("current", currentTime);
+
+      return shareUrl;
+    }
+
+    function updateBrowserUrl(targetTime, currentTime) {
+      const shareUrl = buildShareUrl(targetTime, currentTime);
+      window.history.replaceState(null, "", shareUrl);
+    }
+
+    function calculateComparison() {
+      messageElement.textContent = "";
+      messageElement.style.color = "";
+
+      try {
+        const targetTimeMilliseconds = parseLapTime(targetTimeInput.value);
+        const currentTimeMilliseconds = parseLapTime(currentTimeInput.value);
+
+        const timeGapMilliseconds =
+          currentTimeMilliseconds - targetTimeMilliseconds;
+
+        const currentToTargetRatio =
+          currentTimeMilliseconds / targetTimeMilliseconds * 100;
+
+        const percentageDifference =
+          timeGapMilliseconds / targetTimeMilliseconds * 100;
+
+        const formattedTargetTime =
+          formatLapTime(targetTimeMilliseconds);
+
+        const formattedCurrentTime =
+          formatLapTime(currentTimeMilliseconds);
+
+        targetTimeInput.value = formattedTargetTime;
+        currentTimeInput.value = formattedCurrentTime;
+
+        ratioResultElement.textContent =
+          `${currentToTargetRatio.toFixed(3)}%`;
+
+        gapResultElement.textContent =
+          formatSignedSeconds(timeGapMilliseconds);
+
+        differenceResultElement.textContent =
+          formatSignedPercentage(percentageDifference);
+
+        if (timeGapMilliseconds > 0) {
+          summaryResultElement.innerHTML =
+            `The current time is <strong>${Math.abs(
+              percentageDifference
+            ).toFixed(3)}% slower</strong> than the target time.`;
+        } else if (timeGapMilliseconds < 0) {
+          summaryResultElement.innerHTML =
+            `The current time is <strong>${Math.abs(
+              percentageDifference
+            ).toFixed(3)}% faster</strong> than the target time.`;
+        } else {
+          summaryResultElement.textContent =
+            "The current time exactly matches the target time.";
+        }
+
+        resultElement.classList.add("visible");
+
+        updateBrowserUrl(formattedTargetTime, formattedCurrentTime);
+
+        return {
+          targetTime: formattedTargetTime,
+          currentTime: formattedCurrentTime
+        };
+      } catch (error) {
+        resultElement.classList.remove("visible");
+        messageElement.textContent =
+          error instanceof Error
+            ? error.message
+            : "Unable to calculate the comparison.";
+
+        return null;
+      }
+    }
+
+    function swapTimes() {
+      const previousTargetTime = targetTimeInput.value;
+
+      targetTimeInput.value = currentTimeInput.value;
+      currentTimeInput.value = previousTargetTime;
+
+      calculateComparison();
+    }
+
+    async function copyShareUrl() {
+      const comparison = calculateComparison();
+
+      if (!comparison) {
+        return;
+      }
+
+      const shareUrl = buildShareUrl(
+        comparison.targetTime,
+        comparison.currentTime
+      );
+
+      try {
+        await navigator.clipboard.writeText(shareUrl.toString());
+
+        messageElement.style.color = "var(--success)";
+        messageElement.textContent = "Share URL copied.";
+      } catch {
+        messageElement.style.color = "var(--error)";
+        messageElement.textContent =
+          "Could not copy the URL. Copy it from the address bar instead.";
+      }
+
+      window.setTimeout(() => {
+        messageElement.textContent = "";
+        messageElement.style.color = "";
+      }, 1800);
+    }
+
+    function loadTimesFromQueryParameters() {
+      const queryParameters =
+        new URLSearchParams(window.location.search);
+
+      const targetTimeParameter =
+        queryParameters.get("target");
+
+      const currentTimeParameter =
+        queryParameters.get("current");
+
+      if (targetTimeParameter) {
+        targetTimeInput.value = targetTimeParameter;
+      }
+
+      if (currentTimeParameter) {
+        currentTimeInput.value = currentTimeParameter;
+      }
+    }
+
+    calculateButton.addEventListener(
+      "click",
+      calculateComparison
+    );
+
+    swapButton.addEventListener(
+      "click",
+      swapTimes
+    );
+
+    copyUrlButton.addEventListener(
+      "click",
+      copyShareUrl
+    );
+
+    for (const timeInput of [targetTimeInput, currentTimeInput]) {
+      timeInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          calculateComparison();
+        }
+      });
+
+      timeInput.addEventListener("input", () => {
+        messageElement.textContent = "";
+        messageElement.style.color = "";
+      });
+    }
+
+    loadTimesFromQueryParameters();
+    calculateComparison();
+  </script>
+</body>
+</html>
