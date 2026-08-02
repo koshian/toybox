@@ -1,0 +1,812 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>無限3手詰トレーナー v5</title>
+<style>
+:root{
+  --bg:#17130f;--panel:#241d16;--panel2:#30251a;--ink:#f7edd9;--muted:#b9aa91;
+  --wood:#d9a85f;--wood2:#c58e43;--line:#5e3b1c;--accent:#f1c46b;--danger:#ef7a6a;
+  --ok:#76d49b;--shadow:rgba(0,0,0,.35)
+}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 20% 0,#302418 0,#17130f 45%,#100d0b 100%);
+color:var(--ink);font-family:system-ui,-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif;min-height:100vh}
+button,input,select{font:inherit}
+.app{max-width:1180px;margin:auto;padding:18px}
+header{display:flex;gap:16px;align-items:flex-end;justify-content:space-between;margin-bottom:16px}
+h1{font-size:clamp(24px,4vw,42px);margin:0;letter-spacing:.04em}
+.subtitle{color:var(--muted);font-size:14px}
+.layout{display:grid;grid-template-columns:minmax(360px,620px) minmax(300px,1fr);gap:18px}
+.card{background:linear-gradient(180deg,var(--panel),#1d1712);border:1px solid #4a3928;border-radius:18px;
+box-shadow:0 18px 50px var(--shadow);padding:16px}
+.board-wrap{display:flex;gap:10px;align-items:flex-start;justify-content:center}
+.board{width:min(78vw,560px);aspect-ratio:1;display:grid;grid-template-columns:repeat(9,1fr);grid-template-rows:repeat(9,1fr);
+background:var(--wood);border:5px solid #6c451f;box-shadow:inset 0 0 0 2px #e7bd7b,0 10px 30px rgba(0,0,0,.35);
+user-select:none;touch-action:manipulation}
+.sq{position:relative;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+.sq:nth-child(9n){border-right:0}.sq:nth-last-child(-n+9){border-bottom:0}
+.sq.last{background:rgba(255,255,255,.2)}.sq.sel{background:rgba(255,245,160,.35)}
+.sq.target::after{content:"";width:26%;height:26%;border-radius:50%;background:rgba(28,84,38,.55);position:absolute}
+.sq.check{box-shadow:inset 0 0 0 4px rgba(190,30,30,.65)}
+.coord{position:absolute;font-size:9px;color:rgba(60,30,10,.52);top:2px;right:3px}
+.piece{width:78%;height:86%;clip-path:polygon(50% 0,92% 19%,84% 100%,16% 100%,8% 19%);
+background:linear-gradient(145deg,#f6d89a,#c98f3d);border:1px solid #6d3f13;color:#241305;display:flex;align-items:center;justify-content:center;
+font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:clamp(19px,4.3vw,39px);font-weight:800;text-shadow:0 1px #fff4c9;
+filter:drop-shadow(0 2px 2px rgba(0,0,0,.32));cursor:pointer}
+.piece.gote{transform:rotate(180deg)}.piece.promoted{color:#a51d15}
+.sidebar{display:flex;flex-direction:column;gap:14px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px}
+.btn{border:1px solid #6c5438;background:#3a2c20;color:var(--ink);padding:10px 13px;border-radius:10px;cursor:pointer}
+.btn:hover{background:#4a3929}.btn.primary{background:var(--accent);color:#2a1b09;border-color:#ffe3a0;font-weight:800}
+.btn.danger{background:#5c2d29}.btn:disabled{opacity:.45;cursor:not-allowed}
+.status{padding:12px;border-radius:12px;background:#17120e;border:1px solid #493522;min-height:48px}
+.status.ok{border-color:#397d55;color:#a8f1c1}.status.bad{border-color:#8f413a;color:#ffb6ae}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.meta>div{background:#19140f;border:1px solid #403123;border-radius:10px;padding:10px}
+.meta b{display:block;font-size:12px;color:var(--muted);margin-bottom:3px}
+.hands{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}
+.hand{min-height:54px;background:#19140f;border:1px solid #493522;border-radius:10px;padding:8px}
+.hand-title{font-size:12px;color:var(--muted);margin-bottom:5px}.hand-pieces{display:flex;gap:6px;flex-wrap:wrap}
+.hand-piece{border:1px solid #76522e;background:#d6a457;color:#2b1808;border-radius:8px;padding:5px 8px;cursor:pointer;font-weight:800}
+.hand-piece.sel{outline:3px solid #fff0a4}.hand-piece.gote{transform:none}
+.settings{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{font-size:12px;color:var(--muted)} input,select{width:100%;margin-top:4px;background:#17120e;color:var(--ink);border:1px solid #5b4530;border-radius:9px;padding:9px}
+details{background:#19140f;border:1px solid #403123;border-radius:10px;padding:10px}
+summary{cursor:pointer;font-weight:700}.log{white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;color:#d8c9b3;max-height:300px;overflow:auto}
+.progress{height:8px;background:#15100c;border-radius:99px;overflow:hidden}.progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f1c46b,#f07c5c)}
+.promote-chooser{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:50}.promote-chooser.open{display:flex}.promote-box{background:#241d16;border:1px solid #80613f;border-radius:16px;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.55);min-width:260px}.promote-box h2{font-size:18px;margin:0 0 14px}.promote-actions{display:flex;gap:10px}.promote-actions button{flex:1}.small{font-size:12px;color:var(--muted)}.kbd{background:#0e0b08;border:1px solid #51402f;border-bottom-width:3px;border-radius:6px;padding:1px 5px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.board{width:min(92vw,600px)}header{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div><h1>無限3手詰トレーナー</h1><div class="subtitle">合法手探索・余詰検査つき。問題はブラウザ内で生成します。</div></div>
+  <div class="small">操作: 攻方の初手と詰みの一手を指します（玉方は自動）</div>
+</header>
+<div class="layout">
+  <section class="card">
+    <div class="board-wrap"><div id="board" class="board" aria-label="将棋盤"></div></div>
+    <div class="hands">
+      <div class="hand"><div class="hand-title">☗ 攻方の持駒</div><div id="hand0" class="hand-pieces"></div></div>
+      <div class="hand"><div class="hand-title">☖ 玉方の持駒</div><div id="hand1" class="hand-pieces"></div></div>
+    </div>
+  </section>
+  <aside class="sidebar">
+    <section class="card">
+      <div class="toolbar">
+        <button id="newBtn" class="btn primary">新しい問題</button>
+        <button id="hintBtn" class="btn">ヒント</button>
+        <button id="answerBtn" class="btn">答えを見る</button>
+        <button id="undoBtn" class="btn">1手戻す</button>
+      </div>
+      <div id="status" class="status">「新しい問題」で生成します。</div>
+      <div class="progress"><i id="prog"></i></div>
+      <div class="meta">
+        <div><b>手数</b><span id="ply">0 / 3</span></div>
+        <div><b>難易度</b><span id="rating">—</span></div>
+        <div><b>テーマ</b><span id="theme">—</span></div>
+        <div><b>Seed</b><span id="seedLabel">—</span></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="settings">
+        <label>難易度
+          <select id="level"><option value="easy">やさしい</option><option value="normal" selected>普通</option><option value="hard">難しい</option></select>
+        </label>
+        <label>生成試行上限
+          <select id="attemptLimit"><option>300</option><option selected>1000</option><option>2500</option></select>
+        </label>
+        <label>Seed
+          <input id="seedInput" inputmode="numeric" placeholder="空欄なら自動">
+        </label>
+        <label>苦手テーマ優先
+          <select id="weakMode"><option value="on" selected>ON</option><option value="off">OFF</option></select>
+        </label>
+      </div>
+      <div class="toolbar" style="margin-top:10px">
+        <button id="copyBtn" class="btn">共有URLをコピー</button>
+        <button id="reviewBtn" class="btn">復習問題</button>
+        <button id="resetStatsBtn" class="btn danger">記録を消す</button>
+      </div>
+      <div id="stats" class="small"></div>
+    </section>
+
+    <details>
+      <summary>解答・変化</summary>
+      <div id="solution" class="log">まだありません。</div>
+    </details>
+    <details>
+      <summary>実装上の注意</summary>
+      <div class="small">
+        正確に3手で詰み、初手が一つ、各応手に対する最終手も一つの局面だけを採用します。
+        無駄合の美学的判定までは行わず、通常の合法手として扱います。実物の駒数（飛角各2枚など）を超える局面は生成しません。復習は誤答日時・正答日時・次回出題日時をlocalStorageへ保存し、期限超過と誤答傾向を重くして選びます。持駒選択時は選んだ駒だけの打ち場所を探索します。生成完了時に持駒ボタンのdisabled状態を再同期します。生成に失敗した場合はseedを変えて再試行します。
+      </div>
+    </details>
+  </aside>
+</div>
+</div>
+<div id="promoteChooser" class="promote-chooser" role="dialog" aria-modal="true" aria-labelledby="promoteTitle">
+  <div class="promote-box">
+    <h2 id="promoteTitle">この駒を成りますか？</h2>
+    <div class="promote-actions">
+      <button id="promoteYes" class="btn primary">成る</button>
+      <button id="promoteNo" class="btn">成らない</button>
+    </div>
+  </div>
+</div>
+<script>
+"use strict";
+
+/* ---------- constants ---------- */
+const BLACK=0, WHITE=1; // 攻方=先手、玉方=後手
+const TYPES=["K","R","B","G","S","N","L","P"];
+// 実際の将棋一組に存在する駒の総数（先後・盤上・持駒の合計）
+const PHYSICAL_LIMIT={K:2,R:2,B:2,G:4,S:4,N:4,L:4,P:18};
+function inventoryCount(p,type){
+  let n=0;
+  for(let r=0;r<9;r++)for(let c=0;c<9;c++){
+    const pc=p.board[r][c];
+    if(pc&&pc.type===type)n++; // 成駒も元の種類として数える
+  }
+  if(type!=="K")n+=(p.hands[BLACK][type]||0)+(p.hands[WHITE][type]||0);
+  return n;
+}
+function canAddPhysicalPiece(p,type){
+  return inventoryCount(p,type)<PHYSICAL_LIMIT[type];
+}
+function isPhysicalInventory(p){
+  return TYPES.every(type=>inventoryCount(p,type)<=PHYSICAL_LIMIT[type]) &&
+         inventoryCount(p,"K")===2;
+}
+function addHandPiece(p,owner,type){
+  if(type==="K"||!canAddPhysicalPiece(p,type))return false;
+  p.hands[owner][type]++;
+  return true;
+}
+const JP={K:"玉",R:"飛",B:"角",G:"金",S:"銀",N:"桂",L:"香",P:"歩",
+          "+R":"龍","+B":"馬","+S":"全","+N":"圭","+L":"杏","+P":"と"};
+const HAND_ORDER=["R","B","G","S","N","L","P"];
+const THEMES=["頭金","退路封鎖","捨て駒","開き王手","遠隔王手","駒打ち","逃走誘導"];
+const DIR={
+  K:[[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]],
+  G:[[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,0]],
+  S:[[-1,-1],[-1,0],[-1,1],[1,-1],[1,1]],
+  N:[[-2,-1],[-2,1]],
+  P:[[-1,0]]
+};
+const SLIDE={R:[[-1,0],[1,0],[0,-1],[0,1]],B:[[-1,-1],[-1,1],[1,-1],[1,1]],L:[[-1,0]]};
+const GOLDLIKE=new Set(["S","N","L","P"]);
+
+function emptyPos(){
+  return {board:Array.from({length:9},()=>Array(9).fill(null)),
+    hands:[Object.fromEntries(HAND_ORDER.map(x=>[x,0])),Object.fromEntries(HAND_ORDER.map(x=>[x,0]))],
+    side:BLACK};
+}
+function clonePos(p){return {board:p.board.map(r=>r.map(x=>x?{...x}:null)),hands:[{...p.hands[0]},{...p.hands[1]}],side:p.side}}
+function inside(r,c){return r>=0&&r<9&&c>=0&&c<9}
+function keyPiece(pc){return (pc.promoted?"+":"")+pc.type}
+function orient(owner,dr){return owner===BLACK?dr:-dr}
+function promotable(t){return ["R","B","S","N","L","P"].includes(t)}
+function inZone(owner,r){return owner===BLACK?r<=2:r>=6}
+function mustPromote(type,owner,toR){
+  if(type==="P"||type==="L") return owner===BLACK?toR===0:toR===8;
+  if(type==="N") return owner===BLACK?toR<=1:toR>=7;
+  return false;
+}
+function kingSquare(p,owner){
+  for(let r=0;r<9;r++)for(let c=0;c<9;c++){let x=p.board[r][c];if(x&&x.owner===owner&&x.type==="K")return [r,c]}
+  return null;
+}
+function moveText(m){
+  const file=9-m.c2, rank="一二三四五六七八九"[m.r2];
+  if(m.drop) return `${file}${rank}${JP[m.type]}打`;
+  const pc=m.piece, mark=m.promote?"成":"";
+  return `${file}${rank}${JP[keyPiece(pc)]}${mark}`;
+}
+
+/* ---------- move generation ---------- */
+function pieceMoves(p,r,c,attacksOnly=false){
+  const pc=p.board[r][c]; if(!pc)return [];
+  const out=[], own=pc.owner;
+  const add=(r2,c2)=>{
+    if(!inside(r2,c2))return false;
+    const q=p.board[r2][c2];
+    if(q&&q.owner===own)return false;
+    // 攻撃判定では玉のいる升も「利き」として数える。
+    // 通常の合法手生成だけ、玉を実際に取る手を除外する。
+    if(q&&q.type==="K"&&!attacksOnly)return false;
+    out.push({r1:r,c1:c,r2,c2,piece:{...pc},promote:false,drop:false});
+    return !q;
+  };
+  let steps=[],slides=[];
+  if(pc.promoted&&GOLDLIKE.has(pc.type)) steps=DIR.G;
+  else if(pc.type==="K"||pc.type==="G"||pc.type==="S"||pc.type==="N"||pc.type==="P") steps=DIR[pc.type]||[];
+  if(pc.type==="R"){slides=SLIDE.R;if(pc.promoted)steps=[[-1,-1],[-1,1],[1,-1],[1,1]]}
+  if(pc.type==="B"){slides=SLIDE.B;if(pc.promoted)steps=[[-1,0],[1,0],[0,-1],[0,1]]}
+  if(pc.type==="L"&&!pc.promoted)slides=SLIDE.L;
+  for(const [dr0,dc] of steps){const dr=orient(own,dr0);add(r+dr,c+dc)}
+  for(const [dr0,dc] of slides){
+    const dr=orient(own,dr0);let rr=r+dr,cc=c+dc;
+    while(inside(rr,cc)){if(!add(rr,cc))break;rr+=dr;cc+=dc}
+  }
+  if(attacksOnly)return out;
+  const expanded=[];
+  for(const m of out){
+    if(promotable(pc.type)&&!pc.promoted&&(inZone(own,r)||inZone(own,m.r2))){
+      if(!mustPromote(pc.type,own,m.r2))expanded.push(m);
+      expanded.push({...m,promote:true});
+    }else expanded.push(m);
+  }
+  return expanded;
+}
+function hasUnpromotedPawnOnFile(p,owner,c){
+  for(let r=0;r<9;r++){const q=p.board[r][c];if(q&&q.owner===owner&&q.type==="P"&&!q.promoted)return true}
+  return false;
+}
+function dropLegalBasic(p,owner,type,r,c){
+  if(p.board[r][c])return false;
+  if(type==="P"&&hasUnpromotedPawnOnFile(p,owner,c))return false;
+  if((type==="P"||type==="L")&&(owner===BLACK?r===0:r===8))return false;
+  if(type==="N"&&(owner===BLACK?r<=1:r>=7))return false;
+  return true;
+}
+function applyMove(p,m){
+  const q=clonePos(p), owner=p.side;
+  if(m.drop){q.hands[owner][m.type]--;q.board[m.r2][m.c2]={type:m.type,owner,promoted:false}}
+  else{
+    const pc=q.board[m.r1][m.c1], cap=q.board[m.r2][m.c2];
+    q.board[m.r1][m.c1]=null;
+    if(cap&&cap.type!=="K")q.hands[owner][cap.type]++;
+    q.board[m.r2][m.c2]={type:pc.type,owner,promoted:pc.promoted||m.promote};
+  }
+  q.side=1-owner; return q;
+}
+function isAttacked(p,r,c,byOwner){
+  for(let rr=0;rr<9;rr++)for(let cc=0;cc<9;cc++){
+    const pc=p.board[rr][cc];if(!pc||pc.owner!==byOwner)continue;
+    for(const m of pieceMoves(p,rr,cc,true))if(m.r2===r&&m.c2===c)return true;
+  }
+  return false;
+}
+function inCheck(p,owner){
+  const k=kingSquare(p,owner);return !k||isAttacked(p,k[0],k[1],1-owner);
+}
+function legalMoves(p,owner,withDrops=true,skipPawnMateRule=false){
+  const base={...p,side:owner},out=[];
+  for(let r=0;r<9;r++)for(let c=0;c<9;c++){
+    const pc=p.board[r][c];if(!pc||pc.owner!==owner)continue;
+    for(const m of pieceMoves(p,r,c,false)){
+      const q=applyMove(base,m);
+      if(!inCheck(q,owner))out.push(m);
+    }
+  }
+  if(withDrops){
+    for(const t of HAND_ORDER)if(p.hands[owner][t]>0){
+      for(let r=0;r<9;r++)for(let c=0;c<9;c++)if(dropLegalBasic(p,owner,t,r,c)){
+        const m={drop:true,type:t,r2:r,c2:c};
+        const q=applyMove(base,m);
+        if(inCheck(q,owner))continue;
+        // 打ち歩詰めは禁止
+        if(t==="P"&&!skipPawnMateRule&&inCheck(q,1-owner)){
+          const replies=legalMoves(q,1-owner,true,true);
+          if(replies.length===0)continue;
+        }
+        out.push(m);
+      }
+    }
+  }
+  return out;
+}
+function checkingMoves(p,owner){
+  return legalMoves(p,owner,true).filter(m=>inCheck(applyMove({...p,side:owner},m),1-owner));
+}
+function isMate(p,ownerToMove){
+  return inCheck(p,ownerToMove)&&legalMoves(p,ownerToMove,true).length===0;
+}
+
+/* ---------- solver ---------- */
+function solve3(p,strictFinal=true,capFirst=200){
+  if(inCheck(p,WHITE)||inCheck(p,BLACK))return {solutions:[],reason:"初期局面が王手状態"};
+  const firsts=checkingMoves(p,BLACK);
+  const sols=[];
+  for(const first of firsts.slice(0,capFirst)){
+    const a=applyMove({...p,side:BLACK},first);
+    if(isMate(a,WHITE))continue; // 1手詰は除外
+    const replies=legalMoves(a,WHITE,true);
+    if(!replies.length)continue;
+    const branches=[];let ok=true;
+    for(const rep of replies){
+      const b=applyMove({...a,side:WHITE},rep);
+      const mates=checkingMoves(b,BLACK).filter(m=>isMate(applyMove({...b,side:BLACK},m),WHITE));
+      if(mates.length===0||(strictFinal&&mates.length!==1)){ok=false;break}
+      branches.push({reply:rep,mates});
+    }
+    if(ok)sols.push({first,branches});
+    if(sols.length>1)break;
+  }
+  return {solutions:sols,firstCount:firsts.length};
+}
+
+/* ---------- random generation ---------- */
+function xmur3(str){let h=1779033703^str.length;for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=h<<13|h>>>19}return function(){h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);return (h^h>>>16)>>>0}}
+function mulberry32(a){return function(){let t=a+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296}}
+function pick(rng,a){return a[Math.floor(rng()*a.length)]}
+function ri(rng,a,b){return a+Math.floor(rng()*(b-a+1))}
+function shuffle(rng,a){a=[...a];for(let i=a.length-1;i;i--){let j=Math.floor(rng()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function put(p,r,c,type,owner,promoted=false){
+  if(!inside(r,c)||p.board[r][c]||!canAddPhysicalPiece(p,type))return false;
+  p.board[r][c]={type,owner,promoted};
+  return true;
+}
+function reachableKings(p){const k0=kingSquare(p,BLACK),k1=kingSquare(p,WHITE);return k0&&k1&&Math.max(Math.abs(k0[0]-k1[0]),Math.abs(k0[1]-k1[1]))>1}
+function randomCandidate(rng,level,weakTheme){
+  const p=emptyPos();
+  const kingRow=pick(rng,[0,1,2]), kingCol=ri(rng,1,7);
+  put(p,kingRow,kingCol,"K",WHITE);
+  put(p,ri(rng,6,8),ri(rng,2,6),"K",BLACK);
+
+  const radius=level==="easy"?2:level==="normal"?3:4;
+  const atkCount=level==="easy"?ri(rng,2,4):level==="normal"?ri(rng,3,6):ri(rng,4,8);
+  const defCount=level==="easy"?ri(rng,0,2):level==="normal"?ri(rng,1,4):ri(rng,2,6);
+  const atkPool=weakTheme==="遠隔王手"?["R","B","L","G","S"]:["R","B","G","S","N","L","P"];
+  for(let i=0;i<atkCount;i++){
+    const r=Math.max(0,Math.min(8,kingRow+ri(rng,-radius,radius+2)));
+    const c=Math.max(0,Math.min(8,kingCol+ri(rng,-radius,radius)));
+    const t=pick(rng,atkPool), pro=promotable(t)&&rng()<(level==="hard"?.22:.08);
+    put(p,r,c,t,BLACK,pro);
+  }
+  for(let i=0;i<defCount;i++){
+    const r=Math.max(0,Math.min(8,kingRow+ri(rng,-1,radius)));
+    const c=Math.max(0,Math.min(8,kingCol+ri(rng,-radius,radius)));
+    const t=pick(rng,["G","S","N","L","P","P"]);
+    put(p,r,c,t,WHITE,false);
+  }
+  const handCount=level==="easy"?1:ri(rng,1,2);
+  for(let i=0;i<handCount;i++)addHandPiece(p,BLACK,pick(rng,weakTheme==="頭金"?["G","G","S"]:["R","B","G","S","N","L","P"]));
+  if(level==="hard"&&rng()<.35)addHandPiece(p,WHITE,pick(rng,["G","S","N","L","P"]));
+  return p;
+}
+function inferTheme(sol,p){
+  const f=sol.first;
+  if(f.drop&&f.type==="G")return "頭金";
+  if(f.drop)return "駒打ち";
+  if(f.piece&&(f.piece.type==="R"||f.piece.type==="B"||f.piece.type==="L"))return "遠隔王手";
+  const cap=!f.drop&&p.board[f.r2][f.c2];
+  if(cap)return "捨て駒";
+  if(sol.branches.length>1)return "逃走誘導";
+  return "退路封鎖";
+}
+function difficultyScore(p,result){
+  const sol=result.solutions[0], replies=sol.branches.length;
+  const falseChecks=Math.max(0,(result.firstCount||0)-1);
+  const drop=sol.first.drop?2:0;
+  const sacrifice=!sol.first.drop&&p.board[sol.first.r2][sol.first.c2]?3:0;
+  return 8+falseChecks*2+replies*3+drop+sacrifice+p.board.flat().filter(Boolean).length;
+}
+function simplify(p){
+  let q=clonePos(p), changed=true;
+  while(changed){
+    changed=false;
+
+    // 盤上の不要駒を1枚ずつ削り、唯一の3手詰が維持される場合だけ確定する。
+    const cells=[];
+    for(let r=0;r<9;r++)for(let c=0;c<9;c++){
+      const pc=q.board[r][c];
+      if(pc&&pc.type!=="K")cells.push([r,c]);
+    }
+    for(const [r,c] of cells){
+      const old=q.board[r][c];
+      q.board[r][c]=null;
+      const s=solve3(q,true);
+      if(s.solutions.length===1){changed=true;break}
+      q.board[r][c]=old;
+    }
+    if(changed)continue;
+
+    // 攻方・玉方の持駒も1枚ずつ減らす。解答や応手に必要な駒だけが残る。
+    outer:
+    for(const owner of [BLACK,WHITE]){
+      for(const type of HAND_ORDER){
+        if(q.hands[owner][type]<=0)continue;
+        q.hands[owner][type]--;
+        const s=solve3(q,true);
+        if(s.solutions.length===1){changed=true;break outer}
+        q.hands[owner][type]++;
+      }
+    }
+  }
+  return q;
+}
+
+/* ---------- app state ---------- */
+let pos=emptyPos(), initial=null, moveHistory=[], selected=null, solutionData=null, currentSeed="", busy=false, hintStage=0, pendingPromotion=null;
+let autoReplyTimer=null, autoReplyPending=false;
+const $=id=>document.getElementById(id);
+const STORAGE_KEY="mate3stats_v2";
+function freshStats(){return {version:2,ok:0,miss:0,themes:{},review:[]}}
+function statsLoad(){
+  try{
+    const parsed=JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if(parsed&&parsed.version===2&&Array.isArray(parsed.review))return parsed;
+  }catch{}
+  // 旧版は「本当に誤答したか」を検証できないため、復習問題だけ引き継がない。
+  let old=null;
+  try{old=JSON.parse(localStorage.getItem("mate3stats"))}catch{}
+  const s=freshStats();
+  if(old){
+    s.ok=Number(old.ok)||0;s.miss=Number(old.miss)||0;
+    s.themes=old.themes&&typeof old.themes==="object"?old.themes:{};
+  }
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(s));
+  return s;
+}
+function statsSave(s){localStorage.setItem(STORAGE_KEY,JSON.stringify(s));renderStats()}
+function reviewDue(item,now=Date.now()){return !item.dueAt||item.dueAt<=now}
+function renderStats(){
+  const s=statsLoad(),now=Date.now();
+  const due=s.review.filter(x=>reviewDue(x,now)).length;
+  $("stats").textContent=`正解 ${s.ok}　失敗 ${s.miss}　復習 ${s.review.length}問（期限到来 ${due}問）`;
+}
+function randomSeed(){
+  const a=new Uint32Array(4);
+  if(globalThis.crypto?.getRandomValues)crypto.getRandomValues(a);
+  else for(let i=0;i<a.length;i++)a[i]=(Math.random()*0x100000000)>>>0;
+  return `${Date.now().toString(36)}-${Array.from(a,x=>x.toString(36)).join("-")}-${Math.floor(performance.now()*1000).toString(36)}`;
+}
+function weightedChoice(items,weightFn){
+  let total=0;
+  const weighted=items.map(item=>{const w=Math.max(0.0001,Number(weightFn(item))||0.0001);total+=w;return [item,w]});
+  let r=Math.random()*total;
+  for(const [item,w] of weighted){r-=w;if(r<=0)return item}
+  return weighted.at(-1)?.[0]||null;
+}
+function reviewWeight(item,now=Date.now()){
+  const overdueDays=Math.max(0,(now-(item.dueAt||0))/86400000);
+  const dueFactor=reviewDue(item,now)?8+Math.min(30,overdueDays):0.15;
+  const errorFactor=1+(item.wrongCount||0)*0.8;
+  const masteryDiscount=1+Math.max(0,item.streak||0)*0.7+(item.correctCount||0)*0.15;
+  const recentWrong=item.lastWrongAt?1+Math.max(0,1-(now-item.lastWrongAt)/86400000):1;
+  return dueFactor*errorFactor*recentWrong/masteryDiscount;
+}
+function chooseReviewItem(s){
+  const valid=s.review.filter(x=>x&&x.seed&&x.board&&x.hands&&(x.wrongCount||0)>0);
+  if(!valid.length)return null;
+  const due=valid.filter(x=>reviewDue(x));
+  return weightedChoice(due.length?due:valid,x=>reviewWeight(x));
+}
+function setStatus(msg,cls=""){$("status").textContent=msg;$("status").className="status "+cls}
+function setBusy(v){
+  busy=v;
+  for(const id of ["newBtn","reviewBtn"])$(id).disabled=v;
+  // 生成中に描画された持駒ボタンには disabled 属性が残るため、
+  // busy解除時に盤面・持駒を再描画して実際の操作状態へ同期する。
+  if(!v&&typeof pos!=="undefined")requestAnimationFrame(()=>render());
+}
+function legalBoardMovesFrom(p,owner,r,c){
+  const pc=p.board[r]?.[c];
+  if(!pc||pc.owner!==owner)return [];
+  const base={...p,side:owner},out=[];
+  for(const m of pieceMoves(p,r,c,false)){
+    const q=applyMove(base,m);
+    if(!inCheck(q,owner))out.push(m);
+  }
+  return out;
+}
+function legalDropsOfType(p,owner,type){
+  if(!p.hands[owner][type])return [];
+  const base={...p,side:owner},out=[];
+  for(let r=0;r<9;r++)for(let c=0;c<9;c++){
+    if(!dropLegalBasic(p,owner,type,r,c))continue;
+    const m={drop:true,type,r2:r,c2:c};
+    const q=applyMove(base,m);
+    if(inCheck(q,owner))continue;
+    // 打ち歩詰めの検査は歩を選んだ時だけ行う。
+    if(type==="P"&&inCheck(q,1-owner)){
+      const replies=legalMoves(q,1-owner,true,true);
+      if(replies.length===0)continue;
+    }
+    out.push(m);
+  }
+  return out;
+}
+function render(){
+  const board=$("board");board.innerHTML="";
+  const checkedOwner=inCheck(pos,pos.side)?pos.side:null;
+  const ck=checkedOwner!==null?kingSquare(pos,checkedOwner):null;
+  let targets=[];
+  if(selected){
+    if(selected.kind==="board")targets=legalBoardMovesFrom(pos,pos.side,selected.r,selected.c);
+    else targets=legalDropsOfType(pos,pos.side,selected.type);
+  }
+  for(let r=0;r<9;r++)for(let c=0;c<9;c++){
+    const sq=document.createElement("div");sq.className="sq";
+    if(moveHistory.length&&moveHistory.at(-1).r2===r&&moveHistory.at(-1).c2===c)sq.classList.add("last");
+    if(selected?.kind==="board"&&selected.r===r&&selected.c===c)sq.classList.add("sel");
+    if(targets.some(m=>m.r2===r&&m.c2===c))sq.classList.add("target");
+    if(ck&&ck[0]===r&&ck[1]===c)sq.classList.add("check");
+    sq.onclick=()=>clickSquare(r,c,targets);
+    const pc=pos.board[r][c];
+    if(pc){const el=document.createElement("div");el.className="piece "+(pc.owner===WHITE?"gote ":"")+(pc.promoted?"promoted":"");el.textContent=JP[keyPiece(pc)];sq.appendChild(el)}
+    if(r===0){const co=document.createElement("span");co.className="coord";co.textContent=9-c;sq.appendChild(co)}
+    board.appendChild(sq);
+  }
+  renderHand(0);renderHand(1);
+  $("ply").textContent=`${moveHistory.length} / 3`;
+}
+function renderHand(owner){
+  const el=$("hand"+owner);el.innerHTML="";
+  for(const t of HAND_ORDER)if(pos.hands[owner][t]>0){
+    const b=document.createElement("button");b.className="hand-piece";
+    if(selected?.kind==="hand"&&selected.type===t&&owner===pos.side)b.classList.add("sel");
+    b.textContent=`${JP[t]}×${pos.hands[owner][t]}`;b.disabled=owner!==pos.side||busy||autoReplyPending||moveHistory.length>=3;
+    b.onclick=()=>{
+      if(busy||autoReplyPending||moveHistory.length>=3)return;
+      selected={kind:"hand",type:t};
+      // 選択枠を先に表示してから、合法な打ち場所を計算する。
+      b.classList.add("sel");
+      requestAnimationFrame(()=>{
+        render();
+        const drops=legalDropsOfType(pos,pos.side,t);
+        if(drops.length===0)setStatus(`${JP[t]}を合法に打てる場所はありません。`);
+      });
+    };el.appendChild(b)
+  }
+  if(!el.children.length)el.textContent="なし";
+}
+function clickSquare(r,c,targets){
+  if(busy||autoReplyPending||moveHistory.length>=3)return;
+  const pc=pos.board[r][c];
+  const targetMoves=targets.filter(m=>m.r2===r&&m.c2===c);
+  if(targetMoves.length){
+    if(targetMoves.length>1){
+      const promoteMove=targetMoves.find(x=>x.promote);
+      const plainMove=targetMoves.find(x=>!x.promote);
+      if(promoteMove&&plainMove){
+        pendingPromotion={promoteMove,plainMove};
+        $("promoteChooser").classList.add("open");
+        return;
+      }
+    }
+    playMove(targetMoves[0]);return;
+  }
+  if(pc&&pc.owner===pos.side){selected={kind:"board",r,c};render()}else{selected=null;render()}
+}
+function playMove(m){
+  pos=applyMove(pos,m);moveHistory.push(m);selected=null;render();
+
+  // 3手目は詰み判定を最優先する。
+  if(moveHistory.length===3){
+    if(isMate(pos,WHITE)){
+      record(true);
+      setStatus("詰み。正解です！","ok");
+    }else{
+      record(false);
+      setStatus("まだ詰んでいません。1手戻して考え直してください。","bad");
+    }
+    return;
+  }
+
+  // ユーザーが指すのは攻方の初手と最終手だけ。
+  // 正しい初手なら、成立している玉方の応手から1つを自動着手する。
+  if(moveHistory.length===1){
+    const sol=solutionData?.solutions?.[0];
+    const correct=sol&&sameMove(m,sol.first);
+    if(!correct){
+      record(false);
+      setStatus(m.promote?"その成り方では3手で詰みません。1手戻して考え直せます。":"その手では3手で詰みません。成る手も含めて考え直してください。","bad");
+      return;
+    }
+
+    const branch=sol.branches[Math.floor(Math.random()*sol.branches.length)];
+    autoReplyPending=true;
+    setStatus("正解の初手です。玉方が応手を指します……","ok");
+    autoReplyTimer=setTimeout(()=>{
+      autoReplyTimer=null;
+      // 待ち時間中に問題や局面が変わっていたら何もしない。
+      if(!autoReplyPending||moveHistory.length!==1){autoReplyPending=false;return}
+      pos=applyMove(pos,branch.reply);
+      moveHistory.push(branch.reply);
+      selected=null;
+      autoReplyPending=false;
+      render();
+      setStatus(`玉方は ${moveText(branch.reply)}。最後の1手で詰ませてください。`);
+    },450);
+    return;
+  }
+}
+function sameMove(a,b){
+  return !!a&&!!b&&a.drop===b.drop&&a.r2===b.r2&&a.c2===b.c2&&(a.drop?a.type===b.type:(a.r1===b.r1&&a.c1===b.c1&&!!a.promote===!!b.promote));
+}
+function findBranch(sol,reply){return sol.branches.find(x=>sameMove(x.reply,reply))}
+function record(ok){
+  const s=statsLoad(),now=Date.now();
+  if(ok)s.ok++;else s.miss++;
+  const th=$("theme").textContent;
+  s.themes[th]=s.themes[th]||{ok:0,miss:0};
+  s.themes[th][ok?"ok":"miss"]++;
+
+  let item=s.review.find(x=>x.seed===currentSeed);
+  if(!ok&&initial){
+    // 誤答が発生した瞬間にだけ復習台帳へ登録する。
+    if(!item){
+      item=serialize(initial,currentSeed,$("level").value);
+      item.createdAt=now;
+      item.wrongAt=[];
+      item.correctAt=[];
+      item.wrongCount=0;
+      item.correctCount=0;
+      item.streak=0;
+      item.ease=2.3;
+      item.intervalDays=0;
+      item.dueAt=now;
+      s.review.push(item);
+    }
+    item.wrongAt.push(now);
+    item.wrongAt=item.wrongAt.slice(-100);
+    item.wrongCount++;
+    item.lastWrongAt=now;
+    item.streak=0;
+    item.ease=Math.max(1.3,(item.ease||2.3)-0.2);
+    // 誤答直後は10分後から再提示候補。連続誤答ほど少し早める。
+    const relearnMinutes=Math.max(2,10-Math.min(8,item.wrongCount-1));
+    item.intervalDays=relearnMinutes/1440;
+    item.dueAt=now+relearnMinutes*60000;
+  }else if(ok&&item){
+    item.correctAt.push(now);
+    item.correctAt=item.correctAt.slice(-100);
+    item.correctCount++;
+    item.lastCorrectAt=now;
+    item.streak=(item.streak||0)+1;
+    item.ease=Math.min(3.0,(item.ease||2.3)+0.08);
+    // 簡易SM-2型。1日→3日→以後は理解度係数で延長。
+    if(item.streak===1)item.intervalDays=1;
+    else if(item.streak===2)item.intervalDays=3;
+    else item.intervalDays=Math.max(4,(item.intervalDays||3)*item.ease);
+    item.dueAt=now+item.intervalDays*86400000;
+  }
+  // 誤答履歴がある問題だけを保持。古い低優先問題も含め最大200問。
+  s.review=s.review
+    .filter(x=>(x.wrongCount||0)>0)
+    .sort((a,b)=>(b.lastWrongAt||0)-(a.lastWrongAt||0))
+    .slice(0,200);
+  statsSave(s);
+}
+function serialize(p,seed,level){
+  return {seed,level,board:p.board.map(r=>r.map(x=>x?{...x}:null)),hands:[{...p.hands[0]},{...p.hands[1]}]};
+}
+function restore(o){
+  const restored={board:o.board,hands:o.hands,side:BLACK};
+  if(!isPhysicalInventory(restored)){
+    setStatus("この復習問題は旧版で生成された駒数不正の局面なので削除しました。","bad");
+    const s=statsLoad();
+    s.review=s.review.filter(x=>x.seed!==o.seed);
+    statsSave(s);
+    return loadReview();
+  }
+  const solved=solve3(restored,true);
+  if(solved.solutions.length!==1){
+    setStatus("保存された復習問題が現在の判定規則では成立しないため削除しました。","bad");
+    const s=statsLoad();
+    s.review=s.review.filter(x=>x.seed!==o.seed);
+    statsSave(s);
+    return loadReview();
+  }
+  pos=restored;initial=clonePos(pos);currentSeed=o.seed;moveHistory=[];selected=null;
+  solutionData=solved;
+  if(o.level)$("level").value=o.level;
+  updateMeta();render();showSolution();
+  const next=o.dueAt?new Date(o.dueAt).toLocaleString():"未設定";
+  setStatus(`復習問題です。誤答 ${o.wrongCount||0}回、正答 ${o.correctCount||0}回。次回基準: ${next}`);
+}
+function loadReview(){
+  if(autoReplyTimer){clearTimeout(autoReplyTimer);autoReplyTimer=null}
+  autoReplyPending=false;
+  const s=statsLoad(),item=chooseReviewItem(s);
+  if(!item){setStatus("実際に間違えた復習問題はまだありません。");return}
+  restore(item);
+}
+
+/* ---------- generation UI ---------- */
+function weakTheme(){
+  if($("weakMode").value==="off")return pick(Math.random,THEMES);
+  const s=statsLoad(), scored=THEMES.map(t=>{const x=s.themes[t]||{ok:0,miss:0};return [t,(x.miss+1)/(x.ok+x.miss+2)]}).sort((a,b)=>b[1]-a[1]);
+  return scored[0][0];
+}
+async function generate(options={}){
+  if(autoReplyTimer){clearTimeout(autoReplyTimer);autoReplyTimer=null}
+  autoReplyPending=false;
+  setBusy(true);hintStage=0;moveHistory=[];selected=null;$("solution").textContent="生成中…";setStatus("候補局面を生成し、余詰を検査しています。");
+  const requestedSeed=options.seedOverride
+    ? String(options.seedOverride)
+    : options.fresh
+      ? randomSeed()
+      : ($("seedInput").value.trim()||randomSeed());
+  const limit=Number($("attemptLimit").value),level=$("level").value,weak=weakTheme();
+  let found=null,res=null,seed=requestedSeed,totalTried=0;
+  // 1つのseedで見つからなくても、派生seedへ自動で最大5回再試行する。
+  for(let batch=0;batch<5&&!found;batch++){
+    seed=batch===0?requestedSeed:`${requestedSeed}:${batch}`;
+    const seedfn=xmur3(seed),rng=mulberry32(seedfn());
+    for(let i=1;i<=limit;i++){
+      totalTried++;
+      const cand=randomCandidate(rng,level,weak);
+      if(!isPhysicalInventory(cand)||!reachableKings(cand)||inCheck(cand,BLACK)||inCheck(cand,WHITE))continue;
+      const r=solve3(cand,true);
+      if(r.solutions.length===1){found=cand;res=r;break}
+      if(i%15===0){$("prog").style.width=((batch*limit+i)/(limit*5)*100)+"%";await new Promise(requestAnimationFrame)}
+    }
+  }
+  currentSeed=seed;
+  if(found){
+    setStatus("成立局面が見つかりました。盤上と持駒の不要駒を削っています。","ok");
+    await new Promise(requestAnimationFrame);
+    const simple=simplify(found), rr=solve3(simple,true);
+    pos=simple;initial=clonePos(simple);solutionData=rr.solutions.length===1?rr:res;
+    moveHistory=[];selected=null;updateMeta();render();showSolution();
+    setStatus("3手詰です。攻方の初手を指してください。");
+    const u=new URL(location.href);u.searchParams.set("seed",seed);u.searchParams.set("level",level);window.history.replaceState(null,"",u);
+  }else{
+    setStatus(`合計${totalTried}回試しましたが成立局面が見つかりませんでした。難易度を「やさしい」にするか、もう一度生成してください。`,"bad");
+    $("solution").textContent="生成失敗";
+  }
+  $("prog").style.width="0";setBusy(false);
+}
+function updateMeta(){
+  const sol=solutionData.solutions[0],theme=inferTheme(sol,pos),score=difficultyScore(pos,solutionData);
+  $("theme").textContent=theme;$("rating").textContent=score<20?"★☆☆":score<30?"★★☆":"★★★";
+  $("seedLabel").textContent=currentSeed;$("seedInput").value=currentSeed;
+}
+function showSolution(){
+  if(!solutionData?.solutions?.length){$("solution").textContent="解答なし";return}
+  const sol=solutionData.solutions[0];let s=`▲${moveText(sol.first)}\n`;
+  sol.branches.forEach((b,i)=>{
+    s+=`  ${i?"または ":""}△${moveText(b.reply)}　▲${moveText(b.mates[0])}まで\n`;
+  });
+  $("solution").textContent=s.trim();
+}
+function hint(){
+  if(!solutionData?.solutions?.length)return;
+  hintStage++;const f=solutionData.solutions[0].first;
+  if(hintStage===1)setStatus(f.drop?`初手は持駒の${JP[f.type]}を使います。`:`初手は盤上の${JP[keyPiece(f.piece)]}を動かします。`);
+  else if(hintStage===2)setStatus(`初手の着手地点は ${9-f.c2}${"一二三四五六七八九"[f.r2]} です。`);
+  else setStatus(`初手は ${moveText(f)} です。`);
+}
+
+$("promoteYes").onclick=()=>{if(!pendingPromotion)return;const m=pendingPromotion.promoteMove;pendingPromotion=null;$("promoteChooser").classList.remove("open");playMove(m)};
+$("promoteNo").onclick=()=>{if(!pendingPromotion)return;const m=pendingPromotion.plainMove;pendingPromotion=null;$("promoteChooser").classList.remove("open");playMove(m)};
+$("promoteChooser").onclick=e=>{if(e.target===$("promoteChooser")){pendingPromotion=null;$("promoteChooser").classList.remove("open")}};
+
+/* ---------- buttons ---------- */
+$("newBtn").onclick=()=>generate({fresh:true});
+$("hintBtn").onclick=hint;
+$("answerBtn").onclick=()=>{
+  if(autoReplyTimer){clearTimeout(autoReplyTimer);autoReplyTimer=null}
+  autoReplyPending=false;
+  if(initial){pos=clonePos(initial);moveHistory=[];selected=null;render()}
+  showSolution();
+  $("solution").parentElement.open=true;
+  setStatus("解答を表示しました。各行が初手から始まる3手の変化です。");
+};
+$("undoBtn").onclick=()=>{
+  if(autoReplyTimer){clearTimeout(autoReplyTimer);autoReplyTimer=null}
+  autoReplyPending=false;
+  if(!moveHistory.length||!initial)return;
+  const moves=moveHistory.slice(0,-1);pos=clonePos(initial);moveHistory=[];for(const m of moves){pos=applyMove(pos,m);moveHistory.push(m)}selected=null;render();setStatus("1手戻しました。");
+};
+$("copyBtn").onclick=async()=>{await navigator.clipboard.writeText(location.href);setStatus("共有URLをコピーしました。","ok")};
+$("reviewBtn").onclick=loadReview;
+$("resetStatsBtn").onclick=()=>{if(confirm("正解・失敗・復習記録を消しますか？")){localStorage.removeItem(STORAGE_KEY);localStorage.removeItem("mate3stats");renderStats()}};
+
+renderStats();render();
+const params=new URLSearchParams(location.search);
+if(params.get("seed")){
+  $("seedInput").value=params.get("seed");
+  if(params.get("level"))$("level").value=params.get("level");
+  generate({seedOverride:params.get("seed")});
+}else generate({fresh:true});
+</script>
+</body>
+</html>
