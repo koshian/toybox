@@ -122,7 +122,7 @@ summary{cursor:pointer;font-weight:700}.log{white-space:pre-wrap;font-family:ui-
       <summary>実装上の注意</summary>
       <div class="small">
         正確に3手で詰み、初手が一つ、各応手に対する最終手も一つの局面だけを採用します。
-        無駄合の美学的判定までは行わず、通常の合法手として扱います。実物の駒数（飛角各2枚など）を超える局面は生成しません。復習は誤答日時・正答日時・次回出題日時をlocalStorageへ保存し、期限超過と誤答傾向を重くして選びます。持駒選択時は選んだ駒だけの打ち場所を探索します。生成完了時に持駒ボタンのdisabled状態を再同期します。生成に失敗した場合はseedを変えて再試行します。
+        無駄合の美学的判定までは行わず、通常の合法手として扱います。実物の駒数（飛角各2枚など）を超える局面は生成しません。復習は誤答日時・正答日時・次回出題日時をlocalStorageへ保存し、期限超過と誤答傾向を重くして選びます。持駒選択時は選んだ駒だけの打ち場所を探索します。生成完了時に持駒ボタンのdisabled状態を再同期します。1手詰が別に存在する局面は3手詰として採用しません。生成に失敗した場合はseedを変えて再試行します。
       </div>
     </details>
   </aside>
@@ -311,6 +311,9 @@ function isMate(p,ownerToMove){
 function solve3(p,strictFinal=true,capFirst=200){
   if(inCheck(p,WHITE)||inCheck(p,BLACK))return {solutions:[],reason:"初期局面が王手状態"};
   const firsts=checkingMoves(p,BLACK);
+  // 1手詰が一つでも存在する局面は、3手詰問題として失格。
+  const mateInOne=firsts.filter(first=>isMate(applyMove({...p,side:BLACK},first),WHITE));
+  if(mateInOne.length)return {solutions:[],firstCount:firsts.length,reason:"1手詰あり",mateInOne};
   const sols=[];
   for(const first of firsts.slice(0,capFirst)){
     const a=applyMove({...p,side:BLACK},first);
