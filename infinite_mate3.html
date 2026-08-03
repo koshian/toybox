@@ -99,6 +99,13 @@ summary{cursor:pointer;font-weight:700}.log{white-space:pre-wrap;font-family:ui-
         <label>生成試行上限
           <select id="attemptLimit"><option>300</option><option selected>1000</option><option>2500</option></select>
         </label>
+        <label>玉方の応手数
+          <select id="replyLimit">
+            <option value="1" selected>1通り（一本道）</option>
+            <option value="2">最大2通り</option>
+            <option value="9">制限なし</option>
+          </select>
+        </label>
         <label>Seed
           <input id="seedInput" inputmode="numeric" placeholder="空欄なら自動">
         </label>
@@ -122,7 +129,7 @@ summary{cursor:pointer;font-weight:700}.log{white-space:pre-wrap;font-family:ui-
       <summary>実装上の注意</summary>
       <div class="small">
         正確に3手で詰み、初手が一つ、各応手に対する最終手も一つの局面だけを採用します。
-        無駄合の美学的判定までは行わず、通常の合法手として扱います。実物の駒数（飛角各2枚など）を超える局面は生成しません。復習は誤答日時・正答日時・次回出題日時をlocalStorageへ保存し、期限超過と誤答傾向を重くして選びます。持駒選択時は選んだ駒だけの打ち場所を探索します。生成完了時に持駒ボタンのdisabled状態を再同期します。1手詰が別に存在する局面は3手詰として採用しません。生成に失敗した場合はseedを変えて再試行します。
+        無駄合の美学的判定までは行わず、通常の合法手として扱います。実物の駒数（飛角各2枚など）を超える局面は生成しません。復習は誤答日時・正答日時・次回出題日時をlocalStorageへ保存し、期限超過と誤答傾向を重くして選びます。持駒選択時は選んだ駒だけの打ち場所を探索します。生成完了時に持駒ボタンのdisabled状態を再同期します。1手詰が別に存在する局面は3手詰として採用しません。初期設定では玉方の合法応手が1通りだけの一本道問題に限定します。生成に失敗した場合はseedを変えて再試行します。
       </div>
     </details>
   </aside>
@@ -382,6 +389,12 @@ function inferTheme(sol,p){
   if(sol.branches.length>1)return "逃走誘導";
   return "退路封鎖";
 }
+function replyCountAllowed(result){
+  const sol=result?.solutions?.[0];
+  if(!sol)return false;
+  const limit=Number($("replyLimit")?.value||1);
+  return sol.branches.length<=limit;
+}
 function difficultyScore(p,result){
   const sol=result.solutions[0], replies=sol.branches.length;
   const falseChecks=Math.max(0,(result.firstCount||0)-1);
@@ -404,7 +417,7 @@ function simplify(p){
       const old=q.board[r][c];
       q.board[r][c]=null;
       const s=solve3(q,true);
-      if(s.solutions.length===1){changed=true;break}
+      if(s.solutions.length===1&&replyCountAllowed(s)){changed=true;break}
       q.board[r][c]=old;
     }
     if(changed)continue;
@@ -416,7 +429,7 @@ function simplify(p){
         if(q.hands[owner][type]<=0)continue;
         q.hands[owner][type]--;
         const s=solve3(q,true);
-        if(s.solutions.length===1){changed=true;break outer}
+        if(s.solutions.length===1&&replyCountAllowed(s)){changed=true;break outer}
         q.hands[owner][type]++;
       }
     }
@@ -678,10 +691,11 @@ function record(ok){
   statsSave(s);
 }
 function serialize(p,seed,level){
-  return {seed,level,board:p.board.map(r=>r.map(x=>x?{...x}:null)),hands:[{...p.hands[0]},{...p.hands[1]}]};
+  return {seed,level,replyLimit:$("replyLimit").value,board:p.board.map(r=>r.map(x=>x?{...x}:null)),hands:[{...p.hands[0]},{...p.hands[1]}]};
 }
 function restore(o){
   const restored={board:o.board,hands:o.hands,side:BLACK};
+  if(o.replyLimit)$("replyLimit").value=o.replyLimit;
   if(!isPhysicalInventory(restored)){
     setStatus("この復習問題は旧版で生成された駒数不正の局面なので削除しました。","bad");
     const s=statsLoad();
@@ -690,7 +704,7 @@ function restore(o){
     return loadReview();
   }
   const solved=solve3(restored,true);
-  if(solved.solutions.length!==1){
+  if(solved.solutions.length!==1||!replyCountAllowed(solved)){
     setStatus("保存された復習問題が現在の判定規則では成立しないため削除しました。","bad");
     const s=statsLoad();
     s.review=s.review.filter(x=>x.seed!==o.seed);
@@ -738,7 +752,7 @@ async function generate(options={}){
       const cand=randomCandidate(rng,level,weak);
       if(!isPhysicalInventory(cand)||!reachableKings(cand)||inCheck(cand,BLACK)||inCheck(cand,WHITE))continue;
       const r=solve3(cand,true);
-      if(r.solutions.length===1){found=cand;res=r;break}
+      if(r.solutions.length===1&&replyCountAllowed(r)){found=cand;res=r;break}
       if(i%15===0){$("prog").style.width=((batch*limit+i)/(limit*5)*100)+"%";await new Promise(requestAnimationFrame)}
     }
   }
@@ -747,10 +761,10 @@ async function generate(options={}){
     setStatus("成立局面が見つかりました。盤上と持駒の不要駒を削っています。","ok");
     await new Promise(requestAnimationFrame);
     const simple=simplify(found), rr=solve3(simple,true);
-    pos=simple;initial=clonePos(simple);solutionData=rr.solutions.length===1?rr:res;
+    pos=simple;initial=clonePos(simple);solutionData=(rr.solutions.length===1&&replyCountAllowed(rr))?rr:res;
     moveHistory=[];selected=null;updateMeta();render();showSolution();
     setStatus("3手詰です。攻方の初手を指してください。");
-    const u=new URL(location.href);u.searchParams.set("seed",seed);u.searchParams.set("level",level);window.history.replaceState(null,"",u);
+    const u=new URL(location.href);u.searchParams.set("seed",seed);u.searchParams.set("level",level);u.searchParams.set("replies",$("replyLimit").value);window.history.replaceState(null,"",u);
   }else{
     setStatus(`合計${totalTried}回試しましたが成立局面が見つかりませんでした。難易度を「やさしい」にするか、もう一度生成してください。`,"bad");
     $("solution").textContent="生成失敗";
@@ -808,6 +822,7 @@ const params=new URLSearchParams(location.search);
 if(params.get("seed")){
   $("seedInput").value=params.get("seed");
   if(params.get("level"))$("level").value=params.get("level");
+  if(params.get("replies"))$("replyLimit").value=params.get("replies");
   generate({seedOverride:params.get("seed")});
 }else generate({fresh:true});
 </script>
