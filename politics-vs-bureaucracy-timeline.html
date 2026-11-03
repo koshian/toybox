@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>政治と官僚の主導権争いの歴史 年表</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f4f2; --paper:#ffffff; --paper2:#ececea;
+    --ink:#191919; --ink2:#454545; --ink3:#76736d;
+    --line:#d8d6d0; --line2:#191919;
+    --red:#b42318; --red-bg:#fdf0ee; --navy:#1d3a5f; --navy-bg:#edf1f6;
+    --gold:#8a6d1b; --gold-bg:#fbf3d9;
+    --green:#1e6b3a; --green-bg:#eaf5ee;
+    --accent:#b42318;
+    --shadow:0 1px 0 rgba(0,0,0,.06), 0 12px 32px rgba(0,0,0,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#111214; --paper:#1a1b1e; --paper2:#232429;
+      --ink:#f0efe9; --ink2:#c9c7c0; --ink3:#9a978e;
+      --line:#33343a; --line2:#f0efe9;
+      --red:#ff7a6b; --red-bg:#3a1f1c; --navy:#8fb4e6; --navy-bg:#1e2b3f;
+      --gold:#e6c86a; --gold-bg:#332c16;
+      --green:#7bd39a; --green-bg:#1c3326;
+      --shadow:0 12px 32px rgba(0,0,0,.35);
+    }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",system-ui,sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased}
+  a{color:var(--navy)}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px 72px}
+
+  /* HERO */
+  .hero{padding:42px 0 28px;border-bottom:3px solid var(--line2)}
+  .hero-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}
+  .kicker{font-size:12px;letter-spacing:.18em;font-weight:900;color:var(--red)}
+  .hero-date{font-size:12px;color:var(--ink3);font-weight:700;letter-spacing:.08em}
+  h1{font-family:"Noto Serif JP",serif;font-weight:900;font-size:clamp(32px,6vw,58px);line-height:1.12;margin:14px 0 10px;letter-spacing:.01em}
+  h1 .thin{display:block;font-size:clamp(18px,3.2vw,28px);font-weight:700;color:var(--ink2);margin-top:10px;line-height:1.4}
+  .lead{font-size:16.5px;line-height:1.95;color:var(--ink2);max-width:820px;margin:16px 0 0}
+  .lead strong{color:var(--ink)}
+  .hero-grid{display:grid;grid-template-columns:1.4fr .9fr;gap:18px;margin-top:26px}
+  @media(max-width:760px){.hero-grid{grid-template-columns:1fr}}
+  .thesis{background:var(--paper);border:1px solid var(--line);border-top:4px solid var(--red);padding:18px 20px;box-shadow:var(--shadow)}
+  .thesis h2{font-family:"Noto Serif JP",serif;font-size:19px;margin:0 0 8px}
+  .thesis p{margin:0;color:var(--ink2);font-size:14.5px}
+  .thesis p+p{margin-top:8px}
+  .lens{background:var(--ink);color:#f5f4ef;padding:18px 20px}
+  @media(prefers-color-scheme:dark){.lens{background:#ece9e0;color:#171717}}
+  .lens h2{font-size:13px;letter-spacing:.14em;margin:0 0 12px}
+  .lens ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+  .lens li{display:flex;gap:10px;font-size:14px;line-height:1.6}
+  .lens b{flex:0 0 64px;font-size:12px;background:var(--red);color:#fff;text-align:center;padding:2px 0;height:fit-content;letter-spacing:.06em}
+  @media(prefers-color-scheme:dark){.lens b{background:#b42318}}
+
+  /* POWER CHART */
+  .chart-card{margin-top:18px;background:var(--paper);border:1px solid var(--line);padding:18px 20px 10px;box-shadow:var(--shadow)}
+  .chart-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+  .chart-head h2{font-family:"Noto Serif JP",serif;font-size:18px;margin:0}
+  .chart-note{font-size:12px;color:var(--ink3)}
+  .chart-wrap{overflow:hidden}
+  svg{max-width:100%;height:auto;display:block}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--ink2);padding:6px 0 10px}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle}
+
+  /* HOW BUREAUCRACY WAS STRONG */
+  section{margin-top:36px}
+  .sec-head{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid var(--line2);padding-bottom:8px;margin-bottom:16px}
+  .sec-head .no{font-family:"Noto Serif JP",serif;font-size:28px;color:var(--red);font-weight:900}
+  .sec-head h2{font-family:"Noto Serif JP",serif;font-size:24px;margin:0}
+  .sec-head p{margin:0 0 0 auto;font-size:13px;color:var(--ink3);max-width:420px;text-align:right}
+  @media(max-width:700px){.sec-head p{display:none}}
+  .four{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:900px){.four{grid-template-columns:1fr 1fr}}
+  @media(max-width:540px){.four{grid-template-columns:1fr}}
+  .mech{background:var(--paper);border:1px solid var(--line);padding:16px}
+  .mech .num{font-size:11px;letter-spacing:.14em;font-weight:900;color:var(--navy)}
+  .mech h3{font-size:16px;margin:6px 0 6px}
+  .mech p{font-size:13.5px;color:var(--ink2);margin:0;line-height:1.8}
+  .mech .weak{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:12.5px}
+  .mech .weak b{color:var(--red)}
+
+  /* CONTROLS */
+  .controls{position:sticky;top:0;z-index:30;background:var(--bg);padding:14px 0 10px;border-bottom:1px solid var(--line)}
+  .controls-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .search{flex:1;min-width:200px;display:flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);padding:0 12px}
+  .search input{border:0;outline:0;background:transparent;color:var(--ink);height:42px;width:100%;font-size:15px;font-family:inherit}
+  .chip{border:1px solid var(--line2);background:var(--paper);color:var(--ink);padding:8px 13px;font-size:13px;font-weight:700;cursor:pointer;border-radius:999px}
+  .chip[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+  .chip.red[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
+  .selects{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  select{height:38px;background:var(--paper);color:var(--ink);border:1px solid var(--line);padding:0 10px;font-family:inherit;font-size:13.5px;font-weight:700}
+  .count{font-size:13px;color:var(--ink3);font-weight:700;margin-left:auto}
+
+  /* TIMELINE */
+  .era-label{margin:34px 0 6px;display:flex;gap:12px;align-items:center}
+  .era-label span{background:var(--ink);color:var(--bg);font-weight:900;font-size:13px;letter-spacing:.08em;padding:5px 10px}
+  .era-label h3{font-family:"Noto Serif JP",serif;font-size:20px;margin:0}
+  .era-label p{margin:0;color:var(--ink3);font-size:13px}
+  @media(max-width:640px){.era-label{flex-wrap:wrap}.era-label p{flex-basis:100%}}
+  .timeline{position:relative;margin-left:10px;padding-left:28px;border-left:2px solid var(--line)}
+  .entry{position:relative;background:var(--paper);border:1px solid var(--line);margin:14px 0;box-shadow:var(--shadow)}
+  .entry::before{content:"";position:absolute;left:-37px;top:22px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:3px solid var(--navy)}
+  .entry.key::before{border-color:var(--red);width:16px;height:16px;left:-38px}
+  .entry.key{border-color:var(--red);border-width:1.5px}
+  .entry-head{padding:16px 18px 12px;cursor:pointer}
+  .entry-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12px;font-weight:800;letter-spacing:.04em}
+  .year{font-family:"Noto Serif JP",serif;font-size:20px;font-weight:900;color:var(--red);letter-spacing:0}
+  .gov{background:var(--paper2);padding:3px 8px}
+  .outcome{padding:3px 8px;color:#fff}
+  .outcome.done{background:var(--green)} .outcome.part{background:var(--gold);color:#231d05} @media(prefers-color-scheme:dark){.outcome.part{color:#171717}}
+  .outcome.fail{background:#666} .outcome.now{background:var(--red)}
+  .tag{border:1px solid var(--line);padding:2px 7px;color:var(--ink2);font-weight:700}
+  .entry h4{font-family:"Noto Serif JP",serif;font-size:20px;line-height:1.45;margin:8px 0 6px}
+  .summary{color:var(--ink2);font-size:14.5px;margin:0;line-height:1.85}
+  .meter{margin-top:12px}
+  .meter-label{display:flex;justify-content:space-between;font-size:11px;color:var(--ink3);font-weight:800;letter-spacing:.06em}
+  .bar{height:8px;background:var(--navy-bg);position:relative;margin-top:4px;overflow:hidden}
+  .bar i{position:absolute;inset:0 auto 0 0;background:var(--red)}
+  .bar::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--paper)}
+  .toggle{margin-top:10px;font-size:12.5px;font-weight:900;color:var(--red)}
+  .entry-body{display:none;border-top:1px solid var(--line);padding:16px 18px 18px}
+  .entry.open .entry-body{display:block}
+  .cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  @media(max-width:860px){.cols{grid-template-columns:1fr}}
+  .col{padding:13px 14px;background:var(--bg)}
+  .col h5{margin:0 0 7px;font-size:12px;letter-spacing:.12em}
+  .col.try h5{color:var(--navy)} .col.did h5{color:var(--red)} .col.result h5{color:var(--green)}
+  .col ul{margin:0;padding-left:18px;font-size:13.8px;color:var(--ink2);line-height:1.8}
+  .col li+li{margin-top:5px}
+  .resistance{margin-top:14px;border-left:4px solid var(--gold);background:var(--gold-bg);padding:12px 14px;font-size:13.8px}
+  .resistance b{font-size:12px;letter-spacing:.1em}
+  .resistance p{margin:4px 0 0;color:var(--ink2)}
+  .quote{margin-top:12px;font-family:"Noto Serif JP",serif;font-size:15px;line-height:1.9;padding:12px 14px;border:1px solid var(--line);background:var(--paper)}
+  .quote small{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--ink3);margin-top:6px}
+
+  /* COMPARE TABLE */
+  .compare{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:900px){.compare{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.compare{grid-template-columns:1fr}}
+  .cmp{background:var(--paper);border:1px solid var(--line);padding:16px}
+  .cmp.highlight{border:2px solid var(--red)}
+  .why-highlight{margin:10px 0 2px;font-size:12px;font-weight:700;color:var(--red);background:var(--red-bg);padding:6px 8px}
+  .cmp-note{margin-top:12px;font-size:12.5px;color:var(--ink3)}
+  .line-sample{display:inline-block;width:26px;border-top:3px dashed var(--navy);vertical-align:middle;margin-right:6px}
+  .cmp h3{font-family:"Noto Serif JP",serif;margin:0 0 4px;font-size:18px}
+  .cmp .period{font-size:12px;color:var(--ink3);font-weight:800}
+  .cmp dl{margin:12px 0 0;font-size:13.5px}
+  .cmp dt{font-weight:900;font-size:11.5px;letter-spacing:.1em;color:var(--ink3);margin-top:10px}
+  .cmp dd{margin:2px 0 0;color:var(--ink2);line-height:1.75}
+
+  /* MOF SPOTLIGHT */
+  .spot{background:var(--ink);color:#f2f1ec;padding:22px}
+  @media(prefers-color-scheme:dark){.spot{background:#e9e6dd;color:#171717}}
+  .spot h3{font-family:"Noto Serif JP",serif;font-size:22px;margin:0 0 6px}
+  .spot>p{color:inherit;opacity:.82;font-size:14.5px;max-width:760px}
+  .spot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+  @media(max-width:820px){.spot-grid{grid-template-columns:1fr}}
+  .spot-item{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);padding:14px}
+  @media(prefers-color-scheme:dark){.spot-item{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.15)}}
+  .spot-item b{color:#ffb3a7} @media(prefers-color-scheme:dark){.spot-item b{color:#b42318}}
+  .spot-item p{font-size:13.5px;line-height:1.8;opacity:.9;margin:6px 0 0}
+
+  .takeaways{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:760px){.takeaways{grid-template-columns:1fr}}
+  .take{background:var(--paper);border:1px solid var(--line);padding:16px 18px}
+  .take h3{margin:0 0 8px;font-size:16px}
+  .take p,.take li{font-size:14px;color:var(--ink2)}
+  .take ul{margin:0;padding-left:18px}
+  .refs{font-size:13px;color:var(--ink2);line-height:2}
+  .refs li::marker{color:var(--red)}
+  footer{margin-top:40px;border-top:1px solid var(--line);padding-top:16px;font-size:12.5px;color:var(--ink3);line-height:1.9}
+  .empty{display:none;background:var(--paper);border:1px dashed var(--line);padding:28px;text-align:center;color:var(--ink2)}
+  .empty.show{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-top">
+      <div class="kicker">POLITICS vs BUREAUCRACY — 日本政治の主導権争い</div>
+      <div class="hero-date">1955 — 2026 ・ 詳細年表</div>
+    </div>
+    <h1>政治と官僚の<br>主導権争いの歴史
+      <span class="thin">官僚支配からの脱却、政治主導への移行 — 何を掲げ、何を実行し、どこで止められたのか</span>
+    </h1>
+    <p class="lead">「政治主導」は40年以上掲げられてきたスローガンだ。だが実際に主導権が移ったのは、掛け声の時ではない。<strong>人事を握り、予算の決め方を変え、会議体を作って制度に落とした時だけ</strong>だった。本年表は各政権について、<strong>①何をしようとしたか　②実際に実行したこと　③官僚・与党側の抵抗　④何が残ったか</strong>を分けて記録する。成功だけでなく、骨抜き・挫折・副作用も同じ重さで扱う。</p>
+
+    <div class="hero-grid">
+      <div class="thesis">
+        <h2>この年表の結論を先に</h2>
+        <p>官僚が強かった理由は、官僚が「悪かった」からではない。法案を作る専門性、予算を積み上げる情報、人事の自律性、そして与党の事前審査という回路を、制度として独占していたからだ。</p>
+        <p>だから政治主導も、演説では実現しなかった。中曽根は民営化で「実行できる」ことを示し、小選挙区制が党執行部を強くし、橋本行革が道具を作り、小泉が使い方を見せ、民主党が「官僚を外すだけでは回らない」ことを証明し、安倍政権が内閣人事局で決定打を制度化した——というのが本筋である。</p>
+      </div>
+      <div class="lens" aria-label="主導権を見る4つのレンズ">
+        <h2>主導権を見る 4つのレンズ</h2>
+        <ul>
+          <li><b>人事</b><span>誰が幹部を任命するか。最後に効いたのは結局これだった。</span></li>
+          <li><b>予算</b><span>誰が予算の骨格を決めるか。財務省主計局 vs 官邸の主戦場。</span></li>
+          <li><b>会議体</b><span>どこで決めるか。事務次官会議か、閣議か、諮問会議か。</span></li>
+          <li><b>法案</b><span>誰が原案を書き、誰が事前に止められるか。</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-head">
+        <h2>主導権バランスの推移（模式図）</h2>
+        <span class="chart-note">※ 統計データではなく、制度変化に基づく筆者の整理による概念図。赤線は実際に運用された「実効」、紺の破線は法律・組織としての「制度整備」の水準</span>
+      </div>
+      <div class="chart-wrap">
+        <svg viewBox="0 0 920 240" role="img" aria-label="1955年から2026年までの政治主導の強さの推移を示す模式図。2001年以降に大きく上昇し、2014年の内閣人事局で定着する">
+          <line x1="50" y1="30" x2="50" y2="195" stroke="var(--line)" />
+          <line x1="50" y1="195" x2="890" y2="195" stroke="var(--line)" />
+          <line x1="50" y1="112" x2="890" y2="112" stroke="var(--line)" stroke-dasharray="4 5" />
+          <text x="8" y="40" font-size="11" fill="var(--ink3)">政治主導</text>
+          <text x="8" y="200" font-size="11" fill="var(--ink3)">官僚主導</text>
+          <text x="430" y="106" font-size="11" fill="var(--ink3)">拮抗ライン</text>
+          <polyline fill="none" stroke="var(--navy)" stroke-width="2" stroke-dasharray="6 5" opacity="0.75" points="60,178 180,172 265,158 330,138 395,118 455,104 520,100 585,98 650,90 715,58 785,52 865,46" />
+          <polyline fill="none" stroke="var(--red)" stroke-width="3.5" points="60,168 180,158 265,132 330,118 395,126 455,88 520,66 585,104 650,96 715,52 785,44 865,34" />
+          <text x="330" y="152" font-size="11" fill="var(--ink3)">1996–2000 設計と運用のズレ（下記注記）</text>
+          <g fill="var(--paper)" stroke="var(--red)" stroke-width="3">
+            <circle cx="60" cy="168" r="5"/><circle cx="265" cy="132" r="5"/><circle cx="330" cy="118" r="5"/><circle cx="455" cy="88" r="5"/><circle cx="520" cy="66" r="5"/><circle cx="585" cy="104" r="5"/><circle cx="715" cy="52" r="6"/><circle cx="865" cy="34" r="5"/>
+          </g>
+          <g font-size="11.5" fill="var(--ink)" font-weight="700">
+            <text x="38" y="222">1955</text><text x="238" y="222">1983 臨調</text><text x="300" y="222">1994 選挙制度</text>
+            <text x="428" y="222">2001 省庁再編</text><text x="494" y="222">2005 郵政</text><text x="552" y="222">2009 民主党</text>
+            <text x="672" y="222">2014 人事局</text><text x="838" y="222">2026</text>
+          </g>
+          <g font-size="11" fill="var(--red)" font-weight="700">
+            <text x="640" y="36">内閣人事局で制度化</text>
+          </g>
+        </svg>
+      </div>
+      <div class="legend">
+        <span><span class="dot" style="background:var(--red)"></span>政治主導の強さ＝「実効」（概念）</span>
+        <span><span class="line-sample"></span>制度整備の水準（参考）</span>
+        <span>判定の根拠：各時点について、人事権（幹部人事を誰が決めるか）・会議体（どこで決めるか）・予算過程（骨格を誰が先に決めるか）の3点で、実際に運用されていた水準を評価した。法律や組織ができても、使われなければ「実効」は上がらない、という基準で統一している。</span>
+        <span>1996–2000に赤線が下がって見える理由：橋本行革の「設計」は政治側の前進だったが、橋本は1998年の参院選敗北で退陣し、省庁再編の施行は2001年1月までずれ込んだ。小渕・森政権は新制度（とりわけ経済財政諮問会議）を使いこなさず、実効は一時的に官僚側へ戻った。制度の水準（紺の破線）はこの間も下がっておらず、2001年の跳ね上がりは「設計がようやく実施され、小泉政権が使い始めた」ことを表す。</span>
+        <span>民主党期（2009–12）に下がって見えるのも同じ理由で、主導の「意欲」ではなく「実効性」で評価したため。掲げた旗は最も大きかったが、制度に残らなかった。</span>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-head"><span class="no">01</span><h2>前提 — なぜ官僚が強かったのか</h2><p>個人の資質ではなく、4つの制度的独占が理由だった</p></div>
+    <div class="four">
+      <article class="mech"><div class="num">MECHANISM 01</div><h3>事務次官会議</h3><p>閣議の前に、各省の事務次官が全案件を事前調整する会議。ここで全員一致にならないものは閣議に上がらなかったため、実質的な決定機関は閣議ではなく次官会議だったと長く言われた。</p><p class="weak">崩れた契機：<b>2009年、民主党政権が初閣議で廃止</b>。ただし廃止自体は安倍政権以降も復活しなかった。</p></article>
+      <article class="mech"><div class="num">MECHANISM 02</div><h3>与党の事前審査制</h3><p>政府の法案は、閣議決定の前に自民党政務調査会の部会→政審→総務会を通るのが慣行だった。部会では担当省庁と利害を共有する「族議員」が実質的な審査者になり、省庁と族議員と業界の三者が政策を作る構造が固定した。</p><p class="weak">崩れた契機：<b>小選挙区制で党執行部の候補者公認権が強まり</b>、部会の拒否権が相対的に低下した。</p></article>
+      <article class="mech"><div class="num">MECHANISM 03</div><h3>人事の自律性と天下り</h3><p>幹部の昇進は省内の年次と慣行でほぼ決まり、大臣は追認に回りがちだった。再就職（天下り）のあっせんも省が担い、退官後の受け皿が規制先業界にある構造は、省益を守る動機にもなった。</p><p class="weak">崩れた契機：<b>2014年、内閣人事局</b>が幹部約600人の任免を官邸の一元管理下に置いた。</p></article>
+      <article class="mech"><div class="num">MECHANISM 04</div><h3>予算編成権と情報の独占</h3><p>予算は各省の要求を財務省主計局が査定して積み上げる方式。個別事業の積算情報を持つのは省庁と主計局だけであり、政治家が全体を差し替えるには情報もスタッフも決定的に不足していた。</p><p class="weak">崩れた契機：<b>2001年、経済財政諮問会議の「骨太の方針」</b>が予算の骨格を先に決める方式を持ち込んだ。</p></article>
+    </div>
+  </section>
+
+  <section id="timeline-sec">
+    <div class="sec-head"><span class="no">02</span><h2>詳細年表</h2><p>カードを開くと「狙い／実行／抵抗／結果」を分けて読めます</p></div>
+
+    <div class="controls">
+      <div class="controls-row" role="group" aria-label="絞り込み">
+        <button class="chip red" data-era="all" aria-pressed="true">すべて</button>
+        <button class="chip red" data-era="foundation" aria-pressed="false">官僚主導の時代</button>
+        <button class="chip red" data-era="challenge" aria-pressed="false">挑戦の時代</button>
+        <button class="chip red" data-era="turning" aria-pressed="false">転換期</button>
+        <button class="chip red" data-era="institution" aria-pressed="false">制度化以降</button>
+        <label class="search"><span aria-hidden="true">⌕</span><input id="q" type="search" placeholder="キーワードで探す（例：人事局、郵政、財務省、事業仕分け）" aria-label="キーワード検索"></label>
+      </div>
+      <div class="selects">
+        <select id="f-outcome" aria-label="結果で絞り込む">
+          <option value="all">結果：すべて</option><option value="done">実現した</option><option value="part">部分実現</option><option value="fail">挫折・骨抜き</option><option value="now">進行中・評価未定</option>
+        </select>
+        <select id="f-theme" aria-label="テーマで絞り込む">
+          <option value="all">テーマ：すべて</option><option value="人事">人事</option><option value="予算・財政">予算・財政</option><option value="制度・会議体">制度・会議体</option><option value="改革実行">改革実行</option><option value="外交・安保">外交・安保</option><option value="選挙制度">選挙制度</option>
+        </select>
+        <span class="count" id="count"></span>
+      </div>
+    </div>
+
+    <div id="timeline"></div>
+    <div class="empty" id="empty">条件に合う項目がありません。絞り込みを緩めてみてください。</div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="no">03</span><h2>4つの挑戦の比較</h2><p>同じ「政治主導」を掲げて、何が違ったのか</p></div>
+    <div class="compare">
+      <article class="cmp"><h3>中曽根康弘</h3><div class="period">1982–87 ・ 行革と民営化</div><dl>
+        <dt>武器</dt><dd>臨時行政調査会（土光臨調）という諮問機関と、世論への直接訴求</dd>
+        <dt>実行したこと</dt><dd>三公社の民営化。国鉄分割民営化まで持ち込んだ</dd>
+        <dt>残らなかったもの</dt><dd>幹部人事や予算編成の仕組み。首相個人の力量に依存し、制度として継承されなかった</dd>
+        <dt>評価</dt><dd>「首相主導は可能だ」と示した原型</dd></dl></article>
+      <article class="cmp"><h3>小泉純一郎</h3><div class="period">2001–06 ・ 諮問会議と解散権</div><dl>
+        <dt>武器</dt><dd>経済財政諮問会議、「骨太の方針」、そして郵政解散での解散権の行使</dd>
+        <dt>実行したこと</dt><dd>予算の骨格決定を官邸側へ移し、郵政民営化を党内抵抗を排除して成立させた</dd>
+        <dt>残らなかったもの</dt><dd>公務員人事の制度改革。諮問会議の力も首相・担当相依存が大きかった</dd>
+        <dt>評価</dt><dd>政治主導を「実行して見せた」最初の政権</dd></dl></article>
+      <article class="cmp"><h3>民主党政権</h3><div class="period">2009–12 ・ 脱官僚の実験</div><dl>
+        <dt>武器</dt><dd>政権交代の民意、事務次官会議の廃止、事業仕分けの公開性</dd>
+        <dt>実行したこと</dt><dd>事務次官会議の廃止は即日実現し、その後も復活しなかった</dd>
+        <dt>残らなかったもの</dt><dd>国家戦略局は法案未成立で「室」止まり。官僚を意思決定から外しすぎ、情報と調整の回路まで失った</dd>
+        <dt>評価</dt><dd>最も大きな旗と、最も大きな反面教師</dd></dl></article>
+      <article class="cmp"><h3>安倍晋三（第2次）</h3><div class="period">2012–20 ・ 人事の制度化</div><dl>
+        <dt>武器</dt><dd>長期政権の安定、内閣人事局、国家安全保障会議、日銀人事</dd>
+        <dt>実行したこと</dt><dd>幹部約600人の人事を官邸が一元管理する仕組みを作り、政権が交代しても残る形にした</dd>
+        <dt>残らなかったもの</dt><dd>消費税の増税路線そのものは覆せず、2019年に10％へ実施された</dd>
+        <dt>評価</dt><dd>政治主導を「個人技」から「制度」に変えた転換点。その代償として忖度論争も生んだ</dd></dl></article>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="no">04</span><h2>主戦場クローズアップ — 財務省との攻防</h2><p>予算と税を握る最強の官庁との関係は、政権ごとに姿を変えた</p></div>
+    <div class="spot">
+      <h3>なぜ財務省だけが最後まで残ったのか</h3>
+      <p>他の省庁への政治主導は会議体と人事で進んだが、財務省には予算編成権・税制の専門性・国税庁という組織力が重なっていた。歴代政権の攻防は、そのまま日本のマクロ政策の迷走——財政だけ／金融だけが動き、両方が揃わない——の裏面でもあった。</p>
+      <div class="spot-grid">
+        <div class="spot-item"><b>小渕政権（1998–2000）</b><p>財政出動は最大級だったが、日銀は1999年にゼロ金利政策へ進んだ後、2000年8月に政府の反対を押し切って解除。財政アクセルと金融ブレーキのちぐはぐが起きた。量的緩和の開始は2001年3月まで遅れる。</p></div>
+        <div class="spot-item"><b>小泉政権（2001–06）</b><p>量的緩和は始まったが、財政側は公共事業削減と基礎的財政収支の黒字化目標で締める側に回った。景気回復は外需主導で、賃金と物価は上がらず、デフレ脱却には届かなかった。</p></div>
+        <div class="spot-item"><b>安倍政権（2012–20）</b><p>政権と日銀が一体となり円安・株高・雇用改善は進んだが、2014年と2019年の消費税増税がブレーキになった。安倍晋三は回顧録で、増税延期をめぐり財務省が「政権を倒すことも辞さない」勢いだったと記し、延期は解散・選挙とセットでなければできなかったと振り返っている。</p></div>
+      </div>
+      <p style="margin-top:16px;font-size:13.5px;opacity:.85">そして2025年以降——元財務官僚の片山さつき財務相が「責任ある積極財政」を公言し、省の幹部人事を入れ替える局面は、この長い攻防の到達点として議論されている。内閣人事局という土台がなければ、財務相個人の経歴だけでは省内人事は動かせなかった、という見方が成り立つ。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="no">05</span><h2>読み解き — 何が効いて、何が効かなかったか</h2></div>
+    <div class="takeaways">
+      <div class="take"><h3>効いたもの</h3><ul>
+        <li><b>人事の制度化</b>：内閣人事局（2014）。政権の好みではなく仕組みとして残った。</li>
+        <li><b>決める場所の移動</b>：経済財政諮問会議と「骨太の方針」。予算の骨格を先に政治が決める方式。</li>
+        <li><b>選挙制度の変更</b>：小選挙区制が候補者公認を通じて党執行部を強くし、族議員の拒否権を弱めた。</li>
+        <li><b>解散権の実際的威嚇</b>：郵政解散（2005）と消費税延期（2014・16）。頻繁には使えないが、存在が交渉力を変えた。</li>
+      </ul></div>
+      <div class="take"><h3>効かなかった・副作用が出たもの</h3><ul>
+        <li><b>官僚の排除そのもの</b>：民主党期に情報・調整の回路まで切り、普天間問題や原発事故対応で綻びが出た。</li>
+        <li><b>掛け声だけの組織</b>：国家戦略「局」への格上げ法案は未成立。法的権限のない組織は政権とともに消える。</li>
+        <li><b>忖度の論争</b>：人事を官邸が握れば、官僚が政権の意向を先回りする誘因も強まる。森友学園問題をめぐる財務省の決裁文書改ざん（2018年発覚）は、その影の部分として記録されるべき事件である。</li>
+        <li><b>専門性の空洞化</b>：政治主導が強まるほど、耳の痛い数字や反論を官僚が出しにくくなるリスクは残る。</li>
+      </ul></div>
+      <div class="take"><h3>この先の試金石</h3><p>政治主導が本物かどうかは、それを作った政権ではなく、<b>次の政権・次の与党になっても当たり前に使われるか</b>で決まる。内閣人事局と諮問会議はすでに政権交代を越えて使われ続けており、その意味で制度化はかなり進んだ。残る問いは、強くなった官邸をどう統制するか——主導権争いの次の段階は「政治 vs 官僚」ではなく「官邸の権限 vs 国会・検証の仕組み」へ移りつつある。</p></div>
+      <div class="take"><h3>参考文献・一次資料</h3><ul class="refs" style="list-style:none;padding:0">
+        <li>安倍晋三『安倍晋三 回顧録』（中央公論新社、2023）— 消費税延期と財務省との攻防の当事者証言</li>
+        <li>竹中治堅『首相支配 — 日本政治の変貌』（中公新書、2006）</li>
+        <li>飯尾潤『日本の統治構造 — 官僚内閣制から議院内閣制へ』（中公新書、2007）</li>
+        <li>行政改革会議 最終報告（1997）、中央省庁等改革基本法（1998）</li>
+        <li>国家公務員法等の一部を改正する法律（2014）— 内閣人事局の根拠法</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <footer>
+    本ページは公開された歴史的記録と回顧録等の公刊資料に基づく整理であり、主導権バランス図は定量データではなく制度変化に基づく模式図です。2025年以降の記述は現在進行中の事象であり、評価は今後変わり得ます。各項目の「結果」は、法制度として残ったかどうかを基準に判定しています。
+  </footer>
+</div>
+
+<script>
+var ERAS = {
+  foundation:{label:"第I期　官僚主導の完成", desc:"決定の回路が省庁と与党部会の中に閉じていた時代"},
+  challenge:{label:"第II期　首相主導への挑戦", desc:"中曽根行革から政治改革へ。「できるはずだ」を示し始めた時代"},
+  turning:{label:"第III期　道具が揃い、実験が始まる", desc:"橋本行革・小泉政権・民主党政権。成功と失敗が最も濃い時代"},
+  institution:{label:"第IV期　制度化と、その影と到達点", desc:"内閣人事局以降。主導権は制度になり、争点は次の段階へ"}
+};
+var ENTRIES = [
+ {year:"1955–73", gov:"自民党諸政権", era:"foundation", outcome:"part", outcomeLabel:"構造として定着", themes:["制度・会議体","予算・財政"], shift:18, key:false,
+  title:"55年体制 — 官僚主導の回路が完成する",
+  summary:"保守合同で自民党が誕生し、長期政権が前提になった。各省が法案の原案を作り、自民党の政務調査会が事前に審査し、事務次官会議で全省庁の調整を終えてから閣議にかける。この回路の中で、閣議は追認の場に近づいていった。",
+  try:["高度成長に向けた政策立案そのものは、通産省・大蔵省・経済企画庁など官僚組織が主導した（政治側が奪おうとした、というより官僚主導が前提だった時代）"],
+  did:["自民党政務調査会の部会制が整備され、担当分野の議員（後の族議員）が部会で力を持つ構造ができた","事務次官会議が閣議案件の事実上の事前決定の場として定着した"],
+  resist:"抵抗というより、政治側に代替手段（政策スタッフ・シンクタンク）が存在しなかったことが構造を固定した。",
+  result:["高度成長を支える迅速な政策形成には機能したが、「誰が決めたのか」が国民から見えない統治構造が半世紀の出発点になった"]},
+
+ {year:"1970年代", gov:"田中・三木・福田・大平政権", era:"foundation", outcome:"part", outcomeLabel:"部分実現", themes:["予算・財政","人事"], shift:22, key:false,
+  title:"族議員と大蔵省主計局 — 予算をめぐる二重の主導",
+  summary:"予算編成は、各省の要求を大蔵省主計局が査定する積み上げ方式が徹底した。一方で自民党内では道路・建設・農林・郵政などの族議員が育ち、個別予算では「政治」も強かった。ただしそれは全体の方針を決める力ではなく、省庁と組んで配分を取り合う力だった。",
+  try:["田中角栄のように、官僚機構を使いこなして列島改造などの大型方針を通す政治家も現れた"],
+  did:["族議員が各省の予算・法案の応援団兼審査者として制度化した","大蔵省は予算編成権と財政投融資を握り、「最強の官庁」としての地位を固めた"],
+  resist:"主計局の査定に対抗できるだけの財政全体の情報を、政治側は持っていなかった。",
+  result:["「官僚主導」は単独支配ではなく、省庁＋族議員＋業界の共同制作だった、という理解が重要。この三者連合が、後の改革すべての抵抗勢力になる"]},
+
+ {year:"1981–83", gov:"鈴木・中曽根政権", era:"challenge", outcome:"part", outcomeLabel:"部分実現", themes:["改革実行","制度・会議体"], shift:36, key:false,
+  title:"第二次臨時行政調査会（土光臨調）— 「増税なき財政再建」",
+  summary:"経団連会長・土光敏夫を会長に据えた臨調が、行政改革の大綱を打ち出した。中曽根康弘は首相就任後、臨調答申を行革の武器に使い、「戦後政治の総決算」を掲げた。外部の諮問機関を梃子に省庁を動かす手法は、後の諮問会議政治の原型である。",
+  try:["財政再建を増税なしで進めるため、三公社民営化と行政のスリム化を一括で進めようとした","首相が諮問機関の答申を「錦の御旗」にして省庁・族議員の抵抗を封じる手法を確立しようとした"],
+  did:["行政改革大綱を閣議決定し、省庁の許認可・補助金の見直しに着手した","国鉄の分割民営化の方針を打ち出し、再建監理委員会の意見具申（1985）まで進めた"],
+  resist:"各省庁は所管事業の廃止・縮小に抵抗し、国鉄労組と野党は民営化に強く反発。族議員も許認可の見直しに慎重だった。",
+  result:["財政再建の数字目標は道半ばだったが、「首相が外部機関を使って主導する」モデルと、民営化という具体的な成果への道筋が残った"]},
+
+ {year:"1985–87", gov:"中曽根政権", era:"challenge", outcome:"done", outcomeLabel:"実現した", themes:["改革実行"], shift:44, key:true,
+  title:"三公社民営化 — 電電・専売、そして国鉄分割民営化",
+  summary:"1985年に日本電信電話公社がNTTに、日本専売公社がJTになり、1987年には日本国有鉄道が分割されJR各社が発足した。巨大な官営組織そのものを解体・民営化できたことで、「政治は官僚組織に勝てる」という前例が初めて大規模に示された。",
+  try:["国鉄の累積債務と労働争議を、分割民営化によって根本から処理しようとした","民営化を通じて、許認可と天下りの温床とされた公社制度を解体しようとした"],
+  did:["1985年、NTT・JT発足。1986年、国鉄改革関連法が成立","1987年4月、国鉄がJR7社（当時）に分割民営化された"],
+  resist:"国鉄労組（国労など）のストライキを含む強い反発、分割方式をめぐる運輸省や与党内の議論があった。それでも首相の政治決断と世論の支持が押し切った。",
+  result:["中曽根行革の最大の成果。ただしこれは個別組織の改革であり、幹部人事や予算編成という統治の仕組み自体は手つかずで残った——次の課題がここに残る"]},
+
+ {year:"1993", gov:"細川連立政権", era:"challenge", outcome:"part", outcomeLabel:"部分実現", themes:["選挙制度","制度・会議体"], shift:50, key:false,
+  title:"55年体制の崩壊 — 非自民連立政権と「政治改革」の約束",
+  summary:"自民党が分裂し、細川護熙率いる8党派連立政権が誕生。政権は政治改革（選挙制度改革）を最大の使命とし、同時に官僚主導からの脱却を掲げた。首相補佐の活用など官邸機能の強化も試みられたが、政権基盤は脆く、統治の仕組みを変える前に政権が短命に終わるパターンがここで始まる。",
+  try:["中選挙区制をやめ、小選挙区中心の制度に変えて政権交代可能な政治を作ろうとした","官邸スタッフを強化し、政策決定を官僚の事前調整から政治の場へ移そうとした"],
+  did:["政治改革関連法案の与野党合意をまとめ、翌年の成立への道筋をつけた"],
+  resist:"自民党内の改革慎重派に加え、連立内部でも選挙制度の細部で対立。佐川急便事件で細川首相自身が辞任に追い込まれた。",
+  result:["政権は短命だったが、選挙制度改革だけは次の政権に引き継がれて実現する。「制度を変える改革は、政権を越えて生きる」好例"]},
+
+ {year:"1994", gov:"羽田・村山政権", era:"challenge", outcome:"done", outcomeLabel:"実現した", themes:["選挙制度"], shift:54, key:true,
+  title:"政治改革四法 — 小選挙区制と政党交付金の導入",
+  summary:"小選挙区比例代表並立制（小選挙区300、比例代表200＝当時）と政党交付金が導入された。狙いは派閥とカネの政治の打破だったが、副産物が大きかった。候補者の公認権が党執行部に集中し、派閥と族議員の力が相対的に弱まる——後の「官邸主導」を可能にする土台は、実はここで敷かれた。",
+  try:["中選挙区制が生む派閥・利益誘導政治を、制度から断とうとした","政党交付金で、企業献金への依存を下げようとした"],
+  did:["公職選挙法改正など政治改革四法が成立し、1996年総選挙から新制度で実施された","政党交付金制度が始まった"],
+  resist:"地盤を持つ現職議員の抵抗は強く、定数配分をめぐる調整は難航した。",
+  result:["意図した「クリーンな政治」以上に、「党執行部が強くなる」という構造変化が後の政治主導の前提条件になった。改革の効果は、狙いと違う場所に最も大きく現れた例"]},
+
+ {year:"1995–98", gov:"村山・橋本政権", era:"challenge", outcome:"part", outcomeLabel:"部分実現", themes:["予算・財政","人事"], shift:46, key:false,
+  title:"住専問題と大蔵省不祥事 — 官僚不信のピーク",
+  summary:"住宅金融専門会社の処理で公的資金投入が政治問題化し、大蔵省は激しい批判にさらされた。さらに大蔵官僚の接待汚職（ノーパンしゃぶしゃぶ事件、1998）が発覚し、蔵相辞任と大蔵省への捜索に発展。「最強の官庁」の権威が崩れたことが、財政と金融の分離、そして省庁再編を後押しした。",
+  try:["政治側は住専処理の責任と、大蔵省の検査・監督のあり方を問うた"],
+  did:["住専処理法が成立し公的資金による処理が進んだ（国民負担への批判は強く残った）","金融監督庁が発足（1998）し、大蔵省から金融行政が分離し始めた"],
+  resist:"大蔵省は組織防衛を図ったが、スキャンダルで発言力を失い、分離を止められなかった。",
+  result:["官僚の権威は「専門性への信頼」で成り立っていたことが露わになった。不祥事による権威失墜が、制度改革の追い風になるという皮肉な転機"]},
+
+ {year:"1996–98", gov:"橋本政権", era:"turning", outcome:"done", outcomeLabel:"実現した", themes:["制度・会議体"], shift:58, key:true,
+  title:"橋本行革 — 行政改革会議と中央省庁再編の設計",
+  summary:"橋本龍太郎は行政改革会議を自ら主宰し、首相が議長として省庁再編の設計図を描いた。内閣機能の強化、省庁の再編、内閣府の設置という構想は、後の2001年再編のほぼ全体の青写真になった。「政治が制度を設計する」段階への移行である。",
+  try:["縦割り行政を再編し、内閣・首相の総合調整機能を法的に強化しようとした","財政と金融の分離、省庁数の削減を一括で進めようとした"],
+  did:["1997年、行政改革会議が最終報告をまとめた","1998年、中央省庁等改革基本法が成立し、再編の枠組みが法制化された"],
+  resist:"各省庁は統合・改称をめぐって熾烈な縄張り争いを展開し、郵政事業の扱いなど一部は先送り・修正された。",
+  result:["橋本自身は参院選敗北で退陣したが、設計図は小渕・森政権を経て2001年にそのまま実施された。制度改革は政権の寿命より長く生きる、第二の例"]},
+
+ {year:"1999", gov:"小渕政権", era:"turning", outcome:"done", outcomeLabel:"実現した", themes:["制度・会議体"], shift:60, key:false,
+  title:"内閣法改正 — 首相の「発議権」が明記される",
+  summary:"中央省庁再編に先立ち、内閣法が改正され、内閣総理大臣が閣議で基本方針を発議できることが明記された。内閣官房の機能も強化された。小さな条文の改正だが、「首相は閣議の議長」から「首相は方針を示す人」への法的転換だった。",
+  try:["閣議を追認の場から、首相が方針を出す場へ変えようとした"],
+  did:["内閣法改正が成立。首相の発議権と内閣官房の総合調整機能が明文化された"],
+  resist:"条文上の変更だったため大きな政治的抵抗はなかったが、実務が変わるかは後の政権の運用次第だった。",
+  result:["道具は揃った。次に必要だったのは、それを実際に使う首相だった——小泉政権を待つことになる"]},
+
+ {year:"2001.1", gov:"森政権（実施）", era:"turning", outcome:"done", outcomeLabel:"実現した", themes:["制度・会議体","予算・財政"], shift:64, key:true,
+  title:"中央省庁再編 — 内閣府と経済財政諮問会議の誕生",
+  summary:"1府22省庁が1府12省庁に再編され、内閣府が設置された。目玉は経済財政諮問会議で、首相が議長、民間議員が入り、経済財政運営の基本方針（骨太の方針）を決める。予算の「骨格」を財務省主計局の査定より先に政治が決める回路が、初めて制度として生まれた。大蔵省は財務省に改称し、金融行政は金融庁へ完全に分離した。",
+  try:["予算編成を「各省要求の積み上げ」から「総理主導の骨格決定」へ変えようとした","省庁の縦割りを越える総合調整を内閣府に担わせようとした"],
+  did:["2001年1月6日、新体制が発足。経済財政諮問会議が同月に初会合を開いた","同年6月、最初「骨太の方針」がまとめられた"],
+  resist:"財務省は諮問会議の運営に事務局として関与し続け、骨格と個別査定の主導権争いはその後も続いた。",
+  result:["政治主導の「道具一式」が揃った転換点。以後の政権は、多かれ少なかれこの道具立ての上で戦うことになる"]},
+
+ {year:"2001–05", gov:"小泉政権", era:"turning", outcome:"part", outcomeLabel:"部分実現", themes:["予算・財政"], shift:70, key:false,
+  title:"小泉・竹中流 — 諮問会議で予算の骨格を握る",
+  summary:"小泉純一郎は竹中平蔵を経済財政担当相に据え、諮問会議の民間議員ペーパーを梃子に、歳出の上限や改革の優先順位を先に決める手法を徹底した。「聖域なき構造改革」を掲げ、族議員の部会抵抗を「抵抗勢力」と名指しして世論に訴える政治手法も確立した。",
+  try:["一般歳出の伸びを抑え、公共事業など聖域とされた分野にも切り込もうとした","自民党の事前審査で改革が骨抜きにされる前に、諮問会議で方針を固めようとした"],
+  did:["毎年「骨太の方針」を策定し、予算編成の優先順位を官邸側から提示し続けた","特殊法人改革を進め、道路公団民営化などの個別改革を推進した"],
+  resist:"族議員と関係省庁は部会・族議員懇談会を通じて巻き返しを図り、個別事業では政治主導が及ばない部分も多く残った。",
+  result:["予算の「骨格は政治、積算は官僚」という分業ができた。一方で諮問会議の力は首相と担当大臣の力量への依存が大きく、制度として固定したとは言い難かった"]},
+
+ {year:"2002–05", gov:"小泉政権", era:"turning", outcome:"part", outcomeLabel:"部分実現", themes:["改革実行"], shift:68, key:false,
+  title:"道路公団民営化 — 委員会方式の成功と限界",
+  summary:"道路関係四公団民営化推進委員会（委員長・猪瀬直樹ら）が分割民営化案をまとめ、2005年に高速道路会社が発足した。ただし無料化の是非や債務返済計画では政府案と委員会案が対立し、委員が辞任する騒ぎにもなった。「有識者委員会で突破する」手法の威力と、最終決定は政治が握るという現実の両方が見えた事例。",
+  try:["高速道路の建設を「造り続ける仕組み」から切り離し、債務返済を優先する会社に変えようとした"],
+  did:["2004年に関係法が成立し、2005年にNEXCO各社など高速道路会社が発足した"],
+  resist:"国土交通省と道路族議員は新設路線の扱いで抵抗し、推進委員会の案は一部修正された。",
+  result:["民営化そのものは実現したが、高速道路整備の仕組み全体が変わったかは評価が分かれる。個別改革の限界を示す事例"]},
+
+ {year:"2005", gov:"小泉政権", era:"turning", outcome:"done", outcomeLabel:"実現した", themes:["改革実行","選挙制度"], shift:76, key:true,
+  title:"郵政解散と郵政民営化法の成立",
+  summary:"郵政民営化法案が参議院で否決されると、小泉は衆議院を解散し、反対派に公認を与えず「刺客」候補を立てて総選挙に圧勝、特別国会で法案を成立させた。与党内部の抵抗を、公認権と解散権で排除する——小選挙区制が執行部に与えた力を、首相が最大限に行使した事件だった。",
+  try:["郵政事業を民営化し、「官から民へ」の象徴的改革を完成させようとした","法案に反対する自党議員を、選挙を通じて排除しようとした"],
+  did:["2005年9月総選挙で自民党が大勝。10月に郵政民営化関連法が成立","2007年に日本郵政グループが発足し、郵便・貯金・保険が分社化された"],
+  resist:"自民党内の郵政族と関係団体（特定郵便局長会など）は最大級の抵抗を展開し、参院否決まで持ち込んだ。それが解散の引き金になった。",
+  result:["政治主導の最も劇的な成功例。同時に、単一争点で党内を排除する手法は再現が難しく、「小泉だからできた」面も大きい。制度ではなく劇場だった部分が残る"],
+  quote:"「自民党をぶっ壊す」——小泉純一郎が掲げた言葉通り、改革の対象は官僚機構であると同時に、与党自身の抵抗構造だった。"},
+
+ {year:"2007–08", gov:"安倍（第1次）・福田政権", era:"turning", outcome:"fail", outcomeLabel:"挫折・骨抜き", themes:["人事","改革実行"], shift:62, key:false,
+  title:"天下り規制と国家公務員制度改革 — 「内閣人事庁」構想の後退",
+  summary:"安倍政権は各省による再就職あっせんの禁止と、能力・実績本位の人事への転換を進め、2008年には国家公務員制度改革基本法が成立した。だが目玉だった「内閣人事庁」の設置は見送られ、人事を官邸が握る構想はこの段階では実現しなかった。やろうとしたことと、できたことの差が最も大きい項目の一つ。",
+  try:["省庁による天下りあっせんを全面的に禁止しようとした","幹部人事を一元管理する内閣人事庁を作り、人事の政治主導を制度化しようとした"],
+  did:["2007年、国家公務員法改正で再就職規制が強化された","2008年、国家公務員制度改革基本法が成立した（基本法であり、具体化は後続の法改正が必要だった）"],
+  resist:"各省庁と与党内の慎重論により、人事庁構想は基本法の段階で具体性を失った。政権自体も短命が続いた。",
+  result:["問題意識と設計は正しかったが、実行する政治的持続力がなかった。この未完の設計が、第2次安倍政権の内閣人事局として6年後に実現する"]},
+
+ {year:"2009.9", gov:"鳩山（民主党）政権", era:"turning", outcome:"done", outcomeLabel:"実現した", themes:["制度・会議体"], shift:58, key:true,
+  title:"事務次官会議の廃止 — 民主党「政治主導」の第一手",
+  summary:"民主党政権は発足当日の初閣議で、半世紀続いた事務次官会議を廃止した。大臣・副大臣・政務官の「政務三役」が省を運営し、事務次官の記者会見も取りやめた。象徴としては最大級の一手であり、廃止自体はその後の自民党政権でも復活しなかった。",
+  try:["閣議前の事前決定の回路を断ち、決定を政治家の場に戻そうとした","「脱官僚」「政治主導」を政権交代の実績として即日示そうとした"],
+  did:["事務次官会議を廃止し、政務三役会議を各省に設置した","国家公務員幹部の記者会見を取りやめ、広報を政治家が担う形にした"],
+  resist:"官僚側の公然たる抵抗は少なかったが、省庁間の事前調整の場が消えたことで、案件の調整コストが政治家側に跳ね返った。",
+  result:["廃止は定着した。ただし「決める場」を消すことと「決められる能力」を作ることは別であり、後者が伴わなかったことが次の失敗につながる"]},
+
+ {year:"2009–10", gov:"鳩山・菅政権", era:"turning", outcome:"fail", outcomeLabel:"挫折・骨抜き", themes:["予算・財政","制度・会議体"], shift:52, key:false,
+  title:"国家戦略室と事業仕分け — 予算主導の試みとその限界",
+  summary:"予算編成を官邸で握るため国家戦略室が置かれ、行政刷新会議の「事業仕分け」が公開の場で事業を切り捨てて見せた。だが国家戦略「局」への格上げ法案は国会で成立せず、室は法的権限を持たないままだった。事業仕分けも勧告に法的拘束力はなく、削減額は当初の鳴り物入りに比べ限定的だった。",
+  try:["国家戦略局を官邸直轄の司令塔として法制化し、予算と税制の骨格を政治が決める常設機関にしようとした","事業仕分けで予算の中身を国民に見える形にして、省庁の既得権を崩そうとした"],
+  did:["事業仕分けを3次にわたり実施し、一部事業の廃止・縮減を決めた","国家戦略室が税制や予算の基本方針の取りまとめを試みた"],
+  resist:"国家戦略局法案は国会情勢で成立せず廃案方向へ。各省庁は仕分け対象事業の見直しで時間稼ぎと巻き返しを図った。",
+  result:["「見せる政治」としては成功したが、法的権限のない組織は政権と一緒に消える。権限の裏付けの重要性を示した挫折例"]},
+
+ {year:"2010–12", gov:"菅・野田政権", era:"turning", outcome:"fail", outcomeLabel:"挫折・骨抜き", themes:["制度・会議体","外交・安保"], shift:44, key:false,
+  title:"行き詰まり — 普天間、震災・原発事故、そして財務省への接近",
+  summary:"普天間基地移設問題では外務・防衛官僚との信頼が崩れ、方針が迷走した。東日本大震災と福島第一原発事故では、官邸が情報を集約しきれず、議事録の不作成やSPEEDI情報の扱いが問題になった。一方、野田政権は社会保障と税の一体改革で財務省と協調し、消費税増税の三党合意（2012）に至る——「脱官僚」を掲げた政権が、最後は官僚機構に依存して政策を通すという逆転が起きた。",
+  try:["鳩山政権は普天間移設を「最低でも県外」と政治主導で決着させようとした","震災対応では官邸主導の危機管理を試みた"],
+  did:["普天間は結局、辺野古移設を軸とする日米合意へ回帰した","2012年、消費税率引き上げを含む社会保障・税一体改革関連法が自公民の三党合意で成立した"],
+  resist:"官僚を意思決定から遠ざけたことで、交渉の実務情報と代替案が官邸に上がりにくくなったと、多くの検証が指摘している。",
+  result:["政治主導の失敗例として記憶されるが、正確には「官僚を排除する主導」の失敗である。使うことと従属することは違う、という教訓を次の政権が学んだ"]},
+
+ {year:"2013.12", gov:"安倍（第2次）政権", era:"institution", outcome:"done", outcomeLabel:"実現した", themes:["外交・安保","制度・会議体"], shift:72, key:false,
+  title:"国家安全保障会議（日本版NSC）の設置",
+  summary:"外交・安全保障の決定を官邸に一元化するため、国家安全保障会議と国家安全保障局が設置された。関係閣僚の四大臣会合が常設化され、外務省・防衛省に分かれていた情報を官邸の事務局が集約する形になった。特定秘密保護法も同じ文脈で成立した。",
+  try:["外交安保の司令塔を外務・防衛両省から官邸へ移そうとした","危機管理の情報集約を常設の事務局に担わせようとした"],
+  did:["2013年、国家安全保障会議設置法が成立し、NSCと国家安全保障局が発足した","初代局長に外務官僚出身の谷内正太郎が起用された"],
+  resist:"大きな公然の抵抗はなかった。むしろ官僚を排除せず、官邸の事務局に取り込む方式が採られた点が民主党期との違いだった。",
+  result:["外交安保の官邸主導は制度として定着し、以後の政権でも使われ続けている"]},
+
+ {year:"2013–", gov:"安倍（第2次）政権", era:"institution", outcome:"part", outcomeLabel:"部分実現", themes:["予算・財政","人事"], shift:74, key:false,
+  title:"アベノミクスと日銀人事 — 金融政策との「協調」の回復",
+  summary:"安倍政権は黒田東彦を日銀総裁に起用し、政府と日銀の共同声明（アコード）を結んで大規模な金融緩和に踏み切った。1998年の新日銀法以降、政府の要請を日銀が押し返すのが常だった関係が、総裁人事を通じて一変した。人事が政策を変える、最も分かりやすい実例である。",
+  try:["デフレ脱却のため、政権と日銀が同じ方向を向く体制を作ろうとした","財政出動と金融緩和を同時に進める「三本の矢」を掲げた"],
+  did:["2013年4月、日銀は量的・質的金融緩和を開始。円安・株高が進み、雇用指標は大きく改善した","一方で財政出動は補正予算中心で、2014年には消費税増税が実施され、持続的な拡張とはならなかった"],
+  resist:"日銀内部の慎重論は総裁交代で退けられた形になった。財務省との財政規律をめぐる緊張は政権を通じて残った。",
+  result:["金融政策側の協調は実現したが、財政側は次項の攻防の通り中途半端に終わる。「両輪が揃う」ことの難しさが残った"]},
+
+ {year:"2014.5", gov:"安倍（第2次）政権", era:"institution", outcome:"done", outcomeLabel:"実現した", themes:["人事","制度・会議体"], shift:84, key:true,
+  title:"内閣人事局の設置 — 主導権争いの決定打",
+  summary:"国家公務員法改正により、内閣官房に内閣人事局が置かれ、各省の審議官級以上の幹部約600人について、首相・官房長官が任免を協議・管理する仕組みができた。幹部候補者名簿を官邸が作り、適格性審査を行う。40年来の政治主導論で、初めて「人事」という実質的な権力を制度として政治が握った瞬間である。",
+  try:["幹部人事を省内の年次・慣行から切り離し、政権の方針に沿う人事を可能にしようとした","2008年の基本法で実現しなかった「人事の一元管理」を、今度こそ具体的な組織として作ろうとした"],
+  did:["2014年5月、内閣人事局が発足（初代局長は杉田和博官房副長官が兼務）","幹部人事の一元管理と、国家公務員全体の級別定数の配分などを担い始めた"],
+  resist:"制度設計の過程で各省の抵抗はあったが、政権の安定と国会多数を背景に法改正が成立した。反対論の中心は抵抗ではなく、後に表面化する「忖度」への懸念だった。",
+  result:["政権交代を越えて存続する制度となった。以後の政権はこの仕組みを前提に人事を行っており、「政治主導」はここで個人技から制度に変わった"],
+  quote:"効いたのは演説ではなく人事だった——本年表全体を通じて、この転換が最も大きな構造変化である。"},
+
+ {year:"2014・2016", gov:"安倍（第2次）政権", era:"institution", outcome:"part", outcomeLabel:"部分実現", themes:["予算・財政"], shift:78, key:false,
+  title:"消費税増税の二度の延期 — 財務省との正面衝突",
+  summary:"消費税率10％への引き上げは、2014年と2016年の二度、安倍首相の判断で延期された。安倍は回顧録で、財務官僚が各方面に働きかけて延期を阻もうとし、「省益のためなら政権を倒すことも辞さない」と感じたと記している。延期はいずれも衆院解散・総選挙とセットで打ち出された——選挙の洗礼なしには財務省に勝てない、という当時の力関係の証言でもある。",
+  try:["景気への悪影響を理由に、法律で決まっていた増税スケジュールを政治判断で止めようとした"],
+  did:["2014年、延期と衆院解散を表明し総選挙で勝利。2016年にも再延期を表明した","ただし最終的には2019年10月、軽減税率を導入した上で税率10％が実施された"],
+  resist:"財務省は増税の先送りが財政健全化を遠ざけるとして、与党幹部やメディアを通じた説得工作を展開したと回顧録は述べる（財務省側の公式な反論とは温度差がある点に留意）。",
+  result:["延期は二度実現したが、増税路線そのものは覆らなかった。財務省との力関係は「拮抗」に移った段階と見るのが妥当で、決着は次の時代に持ち越された"]},
+
+ {year:"2017–18", gov:"安倍（第2次）政権", era:"institution", outcome:"part", outcomeLabel:"部分実現", themes:["人事"], shift:70, key:false,
+  title:"森友問題と決裁文書改ざん — 政治主導の「影」",
+  summary:"森友学園への国有地売却をめぐり、財務省が決裁文書を改ざんしていたことが2018年に発覚し、理財局長だった佐川宣寿が証人喚問された。改ざんの動機をめぐっては「官邸への忖度」が国会で繰り返し問われた。人事権を官邸が握る制度が、官僚に政権の意向を先回りさせる誘因にもなる——政治主導の副作用が、最も重い形で表面化した事件である。",
+  try:["（この項目は改革ではなく、制度の副作用の記録である）"],
+  did:["財務省が内部調査結果を公表し、関係職員が処分された。佐川は国税庁長官を辞任した","制度としての内閣人事局自体は見直されず、存続した"],
+  resist:"野党とメディアは人事制度と忖度の因果を追及したが、改ざんの指示系統の全容は司法・調査でも確定しなかった部分が残る。",
+  result:["主導権争いの歴史は、ここで問いが変わる。「官僚が強すぎる」から「強くなった政治をどう統制するか」へ。この問いは現在も未解決である"]},
+
+ {year:"2020–21", gov:"菅政権", era:"institution", outcome:"done", outcomeLabel:"実現した", themes:["改革実行","制度・会議体"], shift:80, key:false,
+  title:"菅義偉の「縦割り打破」とデジタル庁",
+  summary:"長く官房長官を務めた菅義偉は首相就任直後から、携帯電話料金の引き下げ、不妊治療の保険適用、行政手続きの押印廃止など具体的な課題を担当省庁に直接指示する手法を取った。2021年にはデジタル庁が発足し、民間人材を大量に登用した。日本学術会議の会員候補6人の任命を拒否した件は、人事権の行使として大きな論争になった。",
+  try:["「縦割り110番」などを通じて、省庁の縄張りを越える課題を官邸主導で処理しようとした","デジタル行政の司令塔として、他省庁への勧告権を持つデジタル庁を作ろうとした"],
+  did:["2021年9月、デジタル庁が発足。携帯料金は各社の新料金プランで大幅に下がった","規制改革会議の流れで押印廃止などの手続き改革が進んだ"],
+  resist:"学術会議の任命拒否では、学問の自由をめぐる批判が強く、政権の説明不足も指摘された。",
+  result:["内閣人事局を前提に、短命政権でも個別改革を速く進められることが示された。同時に、人事権行使の説明責任という課題も残した"]},
+
+ {year:"2022–24", gov:"岸田政権", era:"institution", outcome:"part", outcomeLabel:"部分実現", themes:["外交・安保","予算・財政"], shift:80, key:false,
+  title:"岸田政権 — 防衛費倍増と、官邸主導の「平常運転」化",
+  summary:"岸田文雄政権は2022年末、国家安全保障戦略など安保3文書を改定し、防衛費をGDP比2％へ引き上げる方針を閣議決定した。かつてなら省庁間調整で何年もかかった規模の方針転換が、NSCと官邸の回路で進む光景は、政治主導が特別な「改革」ではなく平常運転になったことを示している。",
+  try:["防衛力の抜本的強化、子ども・子育て予算の倍増、原発の再稼働・次世代炉の方針転換を進めようとした"],
+  did:["安保3文書と防衛費増額の方針が閣議決定された。増税による財源確保は先送りが続いた","GX（グリーントランスフォーメーション）の方針で原発活用へ踏み込んだ"],
+  resist:"防衛増税をめぐっては与党内と財務省の調整が長引き、実施時期は繰り返し後ろ倒しになった。",
+  result:["大きな方針転換を官邸で決めること自体は当たり前になった。争点は「決められるか」から「財源と説明をどうするか」へ移っている"]},
+
+ {year:"2025–", gov:"高市政権", era:"institution", outcome:"now", outcomeLabel:"進行中・評価未定", themes:["予算・財政","人事"], shift:86, key:true,
+  title:"高市政権と片山さつき財務相 — 財務省攻防の到達点（仮）",
+  summary:"高市早苗政権で、元大蔵・財務官僚の片山さつきが財務大臣に就いた。片山は「責任ある積極財政」を掲げ、消費税率の引き下げへの取り組みを公言し、財務省の幹部人事（事務次官・主計局長・国税庁長官・理財局長など）を入れ替えた。財務大臣が省の論理ではなく政権の方針を公言し、省内人事まで動かす光景は、安倍政権期に作られた内閣人事局の土台があって初めて可能になった、という見方がある。",
+  try:["財政規律一辺倒とされた財務省の路線を、「責任ある積極財政」へ転換しようとしている","消費税率の引き下げに取り組む姿勢を、財務大臣自身が公言している"],
+  did:["財務省幹部人事の一斉交代を財務大臣が発表し、実施した","安倍元首相の墓前で、アベノミクス継承と消費税引き下げへの取り組みを報告したと述べている（2025年10月31日）"],
+  resist:"財政健全化を重んじる立場からの批判は根強く、市場・金利の反応も含め、路線転換の持続可能性はまだ検証の途上にある。",
+  result:["現在進行中のため評価は定まっていない。ただし構造的には象徴的である——かつて最も政治主導が及ばなかった財務省で、人事と方針の両方が政治の側から動いた。スローガンから40年余り、主導権争いはここまで来た"]}
+];
+
+var state={era:"all", outcome:"all", theme:"all", q:""};
+var timelineEl=document.getElementById("timeline");
+function outcomeClass(o){return o==="done"?"done":o==="part"?"part":o==="fail"?"fail":"now"}
+function matches(e){
+  if(state.era!=="all"&&e.era!==state.era)return false;
+  if(state.outcome!=="all"&&e.outcome!==state.outcome)return false;
+  if(state.theme!=="all"&&e.themes.indexOf(state.theme)===-1)return false;
+  if(state.q){
+    var hay=(e.year+e.gov+e.title+e.summary+e.try.join("")+e.did.join("")+e.result.join("")).toLowerCase();
+    if(hay.indexOf(state.q.toLowerCase())===-1)return false;
+  }
+  return true;
+}
+function listHtml(arr){return "<ul>"+arr.map(function(x){return "<li>"+x+"</li>"}).join("")+"</ul>"}
+function render(){
+  var filtered=ENTRIES.filter(matches);
+  document.getElementById("count").textContent="全"+ENTRIES.length+"項目中 "+filtered.length+"項目を表示";
+  document.getElementById("empty").className="empty"+(filtered.length?"":" show");
+  var html="", lastEra=null;
+  filtered.forEach(function(e,idx){
+    if(e.era!==lastEra){ lastEra=e.era; var er=ERAS[e.era];
+      html+='<div class="era-label"><span>'+er.label+'</span><p>'+er.desc+'</p></div><div class="timeline">';
+    }
+    var tags=e.themes.map(function(t){return '<span class="tag">'+t+'</span>'}).join("");
+    html+='<article class="entry'+(e.key?" key":"")+(idx===0?" open":"")+'">'
+      +'<div class="entry-head" role="button" tabindex="0" aria-expanded="'+(idx===0?"true":"false")+'">'
+      +'<div class="entry-meta"><span class="year">'+e.year+'</span><span class="gov">'+e.gov+'</span><span class="outcome '+outcomeClass(e.outcome)+'">'+e.outcomeLabel+'</span>'+tags+'</div>'
+      +'<h4>'+e.title+'</h4><p class="summary">'+e.summary+'</p>'
+      +'<div class="meter"><div class="meter-label"><span>官僚主導</span><span>この時点の主導権バランス（模式）― 官僚主導の強さ '+(100-e.shift)+' / 100</span><span>政治主導</span></div><div class="bar"><i style="width:'+(100-e.shift)+'%"></i></div></div>'
+      +'<div class="toggle">'+(idx===0?"− 詳細を閉じる":"+ 詳細を開く（狙い／実行／抵抗／結果）")+'</div></div>'
+      +'<div class="entry-body"><div class="cols">'
+      +'<div class="col try"><h5>何をしようとしたか</h5>'+listHtml(e.try)+'</div>'
+      +'<div class="col did"><h5>実際に実行したこと</h5>'+listHtml(e.did)+'</div>'
+      +'<div class="col result"><h5>何が残ったか</h5>'+listHtml(e.result)+'</div>'
+      +'</div><div class="resistance"><b>官僚・与党側の抵抗と反応</b><p>'+e.resist+'</p></div>'
+      +(e.quote?'<div class="quote">'+e.quote+'</div>':"")
+      +'</div></article>';
+    var next=filtered[idx+1];
+    if(!next||next.era!==e.era){ html+='</div>'; }
+  });
+  timelineEl.innerHTML=html;
+  Array.prototype.forEach.call(timelineEl.querySelectorAll(".entry-head"),function(head){
+    function toggle(){
+      var entry=head.parentElement, open=entry.classList.toggle("open");
+      head.setAttribute("aria-expanded",open?"true":"false");
+      head.querySelector(".toggle").textContent=open?"− 詳細を閉じる":"+ 詳細を開く（狙い／実行／抵抗／結果）";
+    }
+    head.addEventListener("click",toggle);
+    head.addEventListener("keydown",function(ev){if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();toggle();}});
+  });
+}
+document.querySelectorAll("[data-era]").forEach(function(btn){
+  btn.addEventListener("click",function(){
+    document.querySelectorAll("[data-era]").forEach(function(b){b.setAttribute("aria-pressed","false")});
+    btn.setAttribute("aria-pressed","true"); state.era=btn.getAttribute("data-era"); render();
+  });
+});
+document.getElementById("f-outcome").addEventListener("change",function(){state.outcome=this.value;render();});
+document.getElementById("f-theme").addEventListener("change",function(){state.theme=this.value;render();});
+document.getElementById("q").addEventListener("input",function(){state.q=this.value.trim();render();});
+render();
+</script>
+</body>
+</html>
